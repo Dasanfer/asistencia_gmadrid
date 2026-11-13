@@ -28,24 +28,33 @@ body{
     background: #f4f6f9;
     display: flex;
     justify-content: center;
-    margin: 20px;
+    align-items: center;
+    min-height: 100vh;
+    margin: 15px;
     color: #333;
 }
 
-main{
+.wrapper-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
+}
+
+header, main, footer{
+    width: 100%;
 }
 
 /* Encabezados modernos y limpios */
 .header-principal {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 0 10px;
+    margin-bottom: 25px;
+    padding: 0 5px;
 }
 
 .header-principal h1 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 800;
     color: #1e293b;
     margin: 0 0 8px 0;
@@ -53,7 +62,7 @@ main{
 }
 
 .header-principal h2 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #0078d4;
     margin: 0;
@@ -63,6 +72,170 @@ main{
     border-radius: 20px;
 }
 
+/* Saludo sobrio, grande, sin fondo y con enlace de cambiar socio */
+#bloqueSaludo {
+    display: none;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.texto-saludo-principal {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+}
+
+.enlace-cambiar-socio {
+    font-size: 13px;
+    color: #0078d4;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.enlace-cambiar-socio:hover {
+    color: #005a9e;
+    text-decoration: underline;
+}
+
+/* Buscador inteligente de socios con autocompletado */
+.buscador-container {
+    position: relative;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+#buscadorSocio {
+    width: 100%;
+    padding: 13px 13px 13px 40px;
+    box-sizing: border-box;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fafbfc;
+    transition: all 0.2s ease;
+}
+
+.icono-busqueda {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #64748b;
+    pointer-events: none;
+}
+
+#buscadorSocio:focus {
+    outline: none;
+    border-color: #0078d4;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+#listaSugerencias {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.sugerencia-item {
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1e293b;
+    transition: background 0.15s ease;
+}
+
+.sugerencia-item:last-child {
+    border-bottom: none;
+}
+
+.sugerencia-item:hover {
+    background: #f0f7ff;
+    color: #0078d4;
+}
+
+.sugerencia-grupo {
+    font-size: 11px;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+/* Contenedor del input PIN con botón interno de texto */
+.input-pin-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.input-pin-wrapper input {
+    width: 100%;
+    padding: 13px 85px 13px 13px;
+    box-sizing: border-box;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fafbfc;
+    transition: all 0.2s ease;
+}
+
+.input-pin-wrapper input:focus {
+    outline: none;
+    border-color: #0078d4;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+.btn-toggle-pin {
+    position: absolute;
+    right: 8px;
+    background: #e2e8f0;
+    border: none;
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #475569;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: auto;
+    margin: 0;
+}
+
+.btn-toggle-pin:hover {
+    background: #0078d4;
+    color: #ffffff;
+}
+
+.ayuda-pin {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
 /* Footer informativo llamativo */
 .footer-informativo {
     background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
@@ -70,8 +243,7 @@ main{
     padding: 16px 20px;
     border-radius: 12px;
     text-align: center;
-    margin-top: 35px;
-    margin-bottom: 20px;
+    margin-top: 25px;
     box-shadow: 0 2px 8px rgba(0, 120, 212, 0.06);
 }
 
@@ -83,22 +255,22 @@ main{
     line-height: 1.5;
 }
 
-/* Contenedores con mejor espaciado interno y sombras más suaves */
+/* Contenedores generales */
 .container{
     background: white;
-    padding: 30px;
+    padding: 28px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     border: 1px solid #eaeaea;
 }
 
-/* Estilos mejorados para etiquetas y controles */
 .container label {
     display: flex;
     font-weight: 600;
     font-size: 14px;
-    margin-top: 16px;
+    margin-top: 10px;
+    margin-bottom: 8px;
     color: #444;
 }
 
@@ -106,7 +278,7 @@ input,
 select,
 textarea{
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     box-sizing: border-box;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
@@ -126,7 +298,7 @@ textarea:focus {
 
 button{
     width: 100%;
-    margin-top: 24px;
+    margin-top: 20px;
     padding: 14px;
     border: none;
     border-radius: 8px;
@@ -138,12 +310,17 @@ button{
     transition: background 0.2s, transform 0.1s;
 }
 
-button:hover{
+button:hover:not(:disabled){
     background: #005a9e;
 }
 
-button:active {
+button:active:not(:disabled) {
     transform: scale(0.99);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Alerta flotante fija arriba */
@@ -188,39 +365,77 @@ button:active {
     transition: all 0.2s ease;
 }
 
-/* Efectos hover dinámicos adaptados al color de la alerta */
-#mensaje[style*="background: rgb(220"] .btn-cerrar-mensaje:hover {
-    background: rgba(22, 163, 74, 0.15);
-    border-color: rgba(22, 163, 74, 0.3);
+/* Spinner overlay semiopaco */
+#spinnerOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    color: white;
+    font-weight: bold;
 }
 
-#mensaje[style*="background: rgb(239"] .btn-cerrar-mensaje:hover,
-#mensaje[style*="background: rgb(240"] .btn-cerrar-mensaje:hover {
-    background: rgba(0, 120, 212, 0.15);
-    border-color: rgba(0, 120, 212, 0.3);
+.spinner {
+    width: 45px;
+    height: 45px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
-#mensaje[style*="background: rgb(254"] .btn-cerrar-mensaje:hover,
-#mensaje[style*="background: rgb(255"] .btn-cerrar-mensaje:hover {
-    background: rgba(220, 38, 38, 0.15);
-    border-color: rgba(220, 38, 38, 0.3);
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .bloque{
     margin-top: 20px;
 }
 
+/* Cuadrícula optimizada Mobile-First para opciones de asistencia */
+.grid-opciones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+@media(max-width: 600px) {
+    .grid-opciones {
+        grid-template-columns: 1fr;
+    }
+}
+
 .opcion-card {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 14px;
     background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 8px !important;
+    margin-top: 0 !important;
+    text-align: center;
+}
+
+/* Ocultar visualmente el radio button conservando su accesibilidad y permitir selección por borde */
+.opcion-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .opcion-card:hover {
@@ -228,48 +443,250 @@ button:active {
     border-color: #0078d4;
 }
 
-.opcion-card input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #0078d4;
-    cursor: pointer;
-    margin: 0;
+/* Estado seleccionado con borde destacado azul y fondo acorde al hover */
+.opcion-card:has(input[type="radio"]:checked) {
+    background: #f0f7ff;
+    border-color: #0078d4;
 }
 
 .opcion-texto {
     font-size: 14px;
     color: #334155;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+/* Grid para franjas horarias */
+.grid-horario {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+@media(max-width: 600px) {
+    .grid-horario {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Diseño Mobile-First para los controles de filtrado de la tabla */
+.filtros-mobile-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+    margin-top: 18px;
+    align-items: center;
+}
+
+@media(max-width: 600px) {
+    .filtros-mobile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.checkboxes-asistencia-grid {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 13px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+/* Enlace discreto interactivo para ver pendientes */
+.link-pendientes {
+    color: #64748b;
+    font-style: italic;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline;
+    width: auto;
+    transition: color 0.2s;
+}
+
+.link-pendientes:hover {
+    color: #0078d4;
+    background: none !important;
+}
+
+/* Estilos de la ventana Modal */
+#modalPendientes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: modalScale 0.2s ease;
+}
+
+@keyframes modalScale {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    background: #0078d4;
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.lista-modal-pendientes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-modal-pendientes li {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+    color: #334155;
+}
+
+.lista-modal-pendientes li:last-child {
+    border-bottom: none;
+}
+
+/* Barra de progreso con gradiente arcoíris */
+.progress-container {
+    background: #e2e8f0;
+    border-radius: 6px;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+    margin: 6px 0 14px 0;
+}
+
+.progress-bar-arcoiris {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    transition: width 0.4s ease;
+}
+
+/* Estilo moderno y limpio para la tabla de asistentes */
+.tabla-moderna-wrapper {
+    overflow-x: auto;
+    margin-top: 18px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 
 table{
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    background: white;
+    text-align: left;
 }
 
 th, td{
-    border: 1px solid #eee;
-    padding: 12px;
-    text-align: left;
-    font-size: 14px;
+    padding: 13px 16px;
+    font-size: 13.5px;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 th{
-    background: #0078d4;
-    color: white;
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11.5px;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #f8fafc;
+}
+
+/* Controles de paginación elegantes */
+.paginacion-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding: 0 4px;
+}
+
+.paginacion-container button {
+    width: auto;
+    margin-top: 0;
+    padding: 9px 16px;
+    font-size: 13px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     font-weight: 600;
 }
 
-tr:nth-child(even){
-    background: #f8fafc;
+.paginacion-container button:hover:not(:disabled) {
+    background: #0078d4;
+    color: white;
+    border-color: #0078d4;
+}
+
+.paginacion-info {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
 }
 
 details summary{
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
-    padding: 5px;
+    padding: 8px 4px;
     list-style: none;
     color: #1e293b;
 }
@@ -297,257 +714,455 @@ details[open] summary::before{
     </div>
 </div>
 
-<main>
-
-<div class="header-principal">
-    <h1>CONFIRMACIÓN DE ASISTENCIA 📝</h1>
-    <h2>GMadrid Juegos de Mesa 🏳️‍🌈🎲</h2>
+<!-- Spinner Overlay con timeout de seguridad -->
+<div id="spinnerOverlay">
+    <div class="spinner"></div>
+    <span id="textoSpinner">Procesando...</span>
 </div>
 
-<div class="container">
-
-<label for="nombre"><b>Nombre de socio:</b></label>
-
-<select id="nombre" onchange="cargarSocio()">
-
-<option value="">Selecciona tu nombre</option>
-
-<optgroup label="Martes">
-    <option>Álvaro Ascariz</option>
-    <option>Álvaro Barreiro</option>
-    <option>Álvaro de la Parte</option>
-    <option>Álvaro de Mera</option>
-    <option>Álvaro F. Chércoles</option>
-    <option>Álvaro Fernández</option>
-    <option>Álvaro Moreno</option>
-    <option>André</option>
-    <option>Ansel</option>
-    <option>Blanca</option>
-    <option>Carlos (Martes)</option>
-    <option>Craig</option>
-    <option>David Horcajada</option>
-    <option>Edu</option>
-    <option>Fer</option>
-    <option>Fran</option>
-    <option>Francesco</option>
-    <option>Iyan</option>
-    <option>José (Martes)</option>
-    <option>Juan</option>
-    <option>Kike</option>
-    <option>Manu (México)</option>
-    <option>Manu (Telecinco)</option>
-    <option>Miguel</option>
-    <option>Noli</option>
-    <option>Rubén</option>
-    <option>Víctor (Martes)</option>
-    <option>Xavi</option>
-    <option>Yeray</option>
-</optgroup>
-
-<optgroup label="Jueves">
-    <option>Adrián</option>
-    <option>Alberto Carranza</option>
-    <option>Alberto Tesoldi</option>
-    <option>Ángel</option>
-    <option>Beñat</option>
-    <option>Carlos (Jueves)</option>
-    <option>Daniel Alfayate</option>
-    <option>Daniel Gimeno</option>
-    <option>Daniel Sánchez</option>
-    <option>David Rodríguez (Dave)</option>
-    <option>David Rodríguez (Ebri)</option>
-    <option>Diego</option>
-    <option>Ismael</option>
-    <option>Iván</option>
-    <option>Jaime</option>
-    <option>José (Jueves)</option>
-    <option>Koke</option>
-    <option>Lionel</option>
-    <option>Moha</option>
-    <option>Rubén Alonso</option>
-    <option>Toño</option>
-    <option>Víctor (Jueves)</option>
-</optgroup>
-
-</select>
-
-<div id="bloqueAsistencia" class="bloque" style="display:none;">
-
-<b><label id="textoAsistencia"></label></b>
-
-<label class="opcion-card">
-<input type="radio" name="asiste" value="si" onchange="limpiarMensaje(); mostrarHorario();">
-<span class="opcion-texto">🟢 Sí</span>
-</label>
-
-<label class="opcion-card">
-<input type="radio" name="asiste" value="no" onchange="limpiarMensaje(); mostrarHorario();">
-<span class="opcion-texto">🔴 No</span>
-</label>
-
-<label class="opcion-card">
-<input type="radio" name="asiste" value="duda" onchange="limpiarMensaje(); mostrarHorario();">
-<span class="opcion-texto">🟠 En duda</span>
-</label>
-
-</div>
-
-<div id="bloqueHorario" class="bloque" style="display:none;">
-
-<label><b>Hora aproximada de llegada:</b></label>
-
-<label class="opcion-card">
-<input type="radio" name="hora" value="17:30-18:00">
-<span class="opcion-texto">17:30H - 18:00H</span>
-</label>
-
-<label class="opcion-card">
-<input type="radio" name="hora" value="18:00-18:30">
-<span class="opcion-texto">18:00H - 18:30H</span>
-</label>
-
-<label class="opcion-card">
-<input type="radio" name="hora" value="18:30-19:00">
-<span class="opcion-texto">18:30H - 19:00H</span>
-</label>
-
-<label class="opcion-card">
-<input type="radio" name="hora" value="19:00+">
-<span class="opcion-texto">A partir de las 19:00H</span>
-</label>
-
-</div>
-
-<button id="btnEnviar" onclick="enviarRespuesta()">
-Enviar respuesta
-</button>
-
-</div>
-
-<details class="container">
-
-    <summary>
-        Asistencia de socios para su próximo día
-    </summary>
-    
-    <div style="margin-top:20px; display: flex; align-items: center; gap: 10px;">
-        <label style="margin-top:0;"><b>Grupo:</b></label>
-        <select id="filtroGrupo" onchange="cargarAsistentes()" style="width: auto; flex: 1;">
-            <option value="Todos">Todos</option>
-            <option value="Martes">Martes</option>
-            <option value="Jueves">Jueves</option>
-        </select>
+<!-- Modal para ver personas sin votar -->
+<div id="modalPendientes" onclick="cerrarModalFuera(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalTitulo">Socios sin votar</span>
+            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <ul id="modalListaNombres" class="lista-modal-pendientes"></ul>
+        </div>
     </div>
-    
-    <div style="margin-top:15px; display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
-        <span style="font-weight: 600; font-size: 14px; color: #444;">Asistencia:</span>
-        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-            <input type="checkbox" id="filtroSi" checked disabled style="width: auto;"> Sí
-        </label>
-        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-            <input type="checkbox" id="filtroNo" onchange="cargarAsistentes()" style="width: auto;"> No
-        </label>
-        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-            <input type="checkbox" id="filtroDuda" onchange="cargarAsistentes()" style="width: auto;"> En duda
-        </label>
-    </div>
-    
-    <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;">
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Grupo</th>
-                <th>Estado</th>
-                <th>Franja de llegada</th>
-            </tr>
-        </thead>
-        <tbody id="tablaAsistentes"></tbody>
-    </table>
-    
-    <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;">
-    
-    <small id="resumenPlazas" style="color: #555; line-height: 1.5; display: block;"></small>
-
-</details>
-
-<!-- Footer Informativo -->
-<div class="footer-informativo">
-    <p>💬 ¿Tienes algún problema, duda o sugerencia? Contacta con <b>Daniel Sánchez</b></p>
 </div>
 
-</main>
+<div class="wrapper-principal">
+    <header>
+        <div class="header-principal">
+            <h1>CONFIRMACIÓN DE ASISTENCIA 📝</h1>
+            <h2>GMadrid Juegos de Mesa 🏳️‍🌈🎲</h2>
+        </div>
+    </header>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    getDocs,
-    collection
-} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+    <main>
+        <div class="container">
 
-const firebaseConfig = {
-    apiKey: "AIzaSyA5vN0AbfISP-g-TrvX4Y34cZM8lejrYUM",
-    authDomain: "fichaje-gmadrid.firebaseapp.com",
-    projectId: "fichaje-gmadrid",
-    storageBucket: "fichaje-gmadrid.firebasestorage.app",
-    messagingSenderId: "794464212993",
-    appId: "1:794464212993:web:7cd442168aa97f63d9c800"
-};
+            <!-- Saludo sobrio, grande, sin fondo y con enlace de cambiar socio -->
+            <div id="bloqueSaludo">
+                <div id="textoSaludo" class="texto-saludo-principal"></div>
+                <div>
+                    <a href="#" onclick="cambiarSocio(event)" class="enlace-cambiar-socio">¿No eres tú? Cambiar de socio</a>
+                </div>
+            </div>
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+            <!-- Buscador inteligente con autocompletado en tiempo real -->
+            <div id="bloqueSelector">
+                <label for="buscadorSocio"><b>Busca o selecciona tu nombre:</b></label>
+                <div class="buscador-container">
+                    <span class="icono-busqueda">🔍</span>
+                    <input type="text" id="buscadorSocio" placeholder="Empieza a escribir tu nombre..." autocomplete="off" oninput="filtrarSocios()" onfocus="mostrarSugerencias()">
+                    <div id="listaSugerencias" style="display:none;"></div>
+                </div>
+            </div>
 
-let respuestaExistente = false;
+            <!-- Contenedor dinámico oculto para guardar selección -->
+            <select id="nombre" style="display:none;" onchange="gestionarSocio()"></select>
 
-window.mostrarMensaje = function(texto, tipo = 'exito') {
+            <!-- Contenedor dinámico para PIN -->
+            <div id="bloquePin" class="bloque" style="display: none;">
+                <label for="pinSocio"><b id="etiquetaPinLabel">Introduce tu PIN de 4 dígitos:</b></label>
+                <div class="input-pin-wrapper">
+                    <input type="password" id="pinSocio" maxlength="4" placeholder="••••" inputmode="numeric">
+                    <button type="button" class="btn-toggle-pin" onclick="toggleVisibilidadPin()">Mostrar</button>
+                </div>
+                <div id="ayudaPinCreacion" class="ayuda-pin" style="display: none;">Crear este código solo se te pedirá esta única vez. Anótalo y recuérdalo por si necesitas usarlo en otros dispositivos o aplicaciones.</div>
+                
+                <button type="button" onclick="validarOConfigurarPin()">Confirmar PIN</button>
+            </div>
+
+            <div id="bloqueAsistencia" class="bloque" style="display:none;">
+
+            <b><label id="textoAsistencia"></label></b>
+
+            <div class="grid-opciones">
+                <label class="opcion-card">
+                    <input type="radio" name="asiste" value="si" onchange="limpiarMensaje(); mostrarHorario();">
+                    <span class="opcion-texto">🟢 Sí</span>
+                </label>
+
+                <label class="opcion-card">
+                    <input type="radio" name="asiste" value="no" onchange="limpiarMensaje(); mostrarHorario();">
+                    <span class="opcion-texto">🔴 No</span>
+                </label>
+
+                <label class="opcion-card">
+                    <input type="radio" name="asiste" value="duda" onchange="limpiarMensaje(); mostrarHorario();">
+                    <span class="opcion-texto">🟠 En duda</span>
+                </label>
+            </div>
+
+            </div>
+
+            <div id="bloqueHorario" class="bloque" style="display:none;">
+
+            <label><b>Hora aproximada de llegada:</b></label>
+
+            <div class="grid-horario">
+                <label class="opcion-card">
+                    <input type="radio" name="hora" value="17:30-18:00">
+                    <span class="opcion-texto">17:30H - 18:00H</span>
+                </label>
+
+                <label class="opcion-card">
+                    <input type="radio" name="hora" value="18:00-18:30">
+                    <span class="opcion-texto">18:00H - 18:30H</span>
+                </label>
+
+                <label class="opcion-card">
+                    <input type="radio" name="hora" value="18:30-19:00">
+                    <span class="opcion-texto">18:30H - 19:00H</span>
+                </label>
+
+                <label class="opcion-card">
+                    <input type="radio" name="hora" value="19:00+">
+                    <span class="opcion-texto">A partir de las 19:00H</span>
+                </label>
+            </div>
+
+            </div>
+
+            <button id="btnEnviar" onclick="enviarRespuesta()" style="display:none;">
+            Enviar respuesta
+            </button>
+
+        </div>
+
+        <details class="container">
+
+            <summary>
+                Asistencia de socios para su próximo día
+            </summary>
+            
+            <!-- Filtros de grupo y asistencia maquetados en formato Mobile-First -->
+            <div class="filtros-mobile-grid">
+                <div>
+                    <label style="margin-top:0; margin-bottom: 8px;"><b>Grupo:</b></label>
+                    <select id="filtroGrupo" onchange="paginaActual = 1; cargarAsistentes();">
+                        <option value="Todos">Todos</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Jueves">Jueves</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="margin-top:0; margin-bottom: 8px;"><b>Asistencia:</b></label>
+                    <div class="checkboxes-asistencia-grid">
+                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
+                            <input type="checkbox" id="filtroSi" checked disabled style="width: auto;"> Sí
+                        </label>
+                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
+                            <input type="checkbox" id="filtroNo" onchange="paginaActual = 1; cargarAsistentes();" style="width: auto;"> No
+                        </label>
+                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
+                            <input type="checkbox" id="filtroDuda" onchange="paginaActual = 1; cargarAsistentes();" style="width: auto;"> En duda
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tabla-moderna-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Grupo</th>
+                            <th>Estado</th>
+                            <th>Franja de llegada</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaAsistentes"></tbody>
+                </table>
+            </div>
+
+            <!-- Paginación elegante -->
+            <div id="contenedorPaginacion" class="paginacion-container" style="display: none;">
+                <button type="button" id="btnAnterior" onclick="cambiarPagina(-1)">← Anterior</button>
+                <span id="infoPaginacion" class="paginacion-info">Página 1 de 1</span>
+                <button type="button" id="btnSiguiente" onclick="cambiarPagina(1)">Siguiente →</button>
+            </div>
+            
+            <!-- Contenedor exclusivo para coordinadores -->
+            <div id="contenedorResumenPlazas" style="display: none;">
+                <hr style="border: none; border-top: 1px solid #eaeaea; margin: 24px 0;">
+                <small id="resumenPlazas" style="color: #555; line-height: 1.6; display: block;"></small>
+            </div>
+
+        </details>
+    </main>
+
+    <footer>
+        <!-- Footer Informativo -->
+        <div class="footer-informativo">
+            <p>💬 ¿Tienes algún problema, duda o sugerencia? Contacta con <b>Daniel Sánchez</b></p>
+        </div>
+    </footer>
+</div>
+
+<script>
+let procesandoOperacion = false;
+let temporizadorTimeout = null;
+let listaCompletaSocios = [];
+let sociosPendientesMartes = [];
+let sociosPendientesJueves = [];
+
+// Variables globales para la paginación de la tabla
+let listaAsistentesCache = [];
+let paginaActual = 1;
+const registrosPorPagina = 10;
+let filtroInicialEstablecido = false; // Control para establecer el grupo del socio por defecto solo una vez
+
+const COORDINADORES_AUTORIZADOS = [
+    "Álvaro de la Parte",
+    "Álvaro Ascariz",
+    "Álvaro F. Chércoles",
+    "Daniel Sánchez"
+];
+
+window.addEventListener('DOMContentLoaded', () => {
+    inicializarListaSocios();
+    verificarEstadoInicial();
+    cargarAsistentes();
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.buscador-container')) {
+            const lista = document.getElementById('listaSugerencias');
+            if(lista) lista.style.display = 'none';
+        }
+    });
+});
+
+function esCoordinadorActual(nombreSocio) {
+    if (!nombreSocio) return false;
+    return COORDINADORES_AUTORIZADOS.some(coord => 
+        coord.localeCompare(nombreSocio, 'es', { sensitivity: 'accent' }) === 0
+    );
+}
+
+function inicializarListaSocios() {
+    const select = document.getElementById('nombre');
+    select.innerHTML = `
+        <option value="">Selecciona tu nombre</option>
+        <optgroup label="Martes">
+            <option>Álvaro Ascariz</option><option>Álvaro Barreiro</option><option>Álvaro de la Parte</option><option>Álvaro de Mera</option><option>Álvaro F. Chércoles</option><option>Álvaro Fernández</option><option>Álvaro Moreno</option><option>André</option><option>Ansel</option><option>Blanca</option><option value="Carlos (Martes)">Carlos (Martes)</option><option>Craig</option><option>David Horcajada</option><option>Edu</option><option>Fer</option><option>Fran</option><option>Francesco</option><option>Iyan</option><option value="José (Martes)">José (Martes)</option><option>Juan</option><option>Kike</option><option>Manu (México)</option><option>Manu (Telecinco)</option><option>Miguel</option><option>Noli</option><option>Rubén</option><option value="Víctor (Martes)">Víctor (Martes)</option><option>Xavi</option><option>Yeray</option>
+        </optgroup>
+        <optgroup label="Jueves">
+            <option>Adrián</option><option>Alberto Carranza</option><option>Alberto Tesoldi</option><option>Ángel</option><option>Beñat</option><option value="Carlos (Jueves)">Carlos (Jueves)</option><option>Daniel Alfayate</option><option>Daniel Gimeno</option><option>Daniel Sánchez</option><option>David Rodríguez (Dave)</option><option>David Rodríguez (Ebri)</option><option>Diego</option><option>Ismael</option><option>Iván</option><option>Jaime</option><option value="José (Jueves)">José (Jueves)</option><option>Koke</option><option>Lionel</option><option>Moha</option><option>Rubén Alonso</option><option>Toño</option><option value="Víctor (Jueves)">Víctor (Jueves)</option>
+        </optgroup>
+    `;
+
+    listaCompletaSocios = [];
+    select.querySelectorAll('optgroup').forEach(group => {
+        const grupoLabel = group.label;
+        group.querySelectorAll('option').forEach(opt => {
+            if(opt.value !== "") {
+                listaCompletaSocios.push({ nombre: opt.textContent, valor: opt.value, grupo: grupoLabel });
+            }
+        });
+    });
+}
+
+function mostrarSugerencias() {
+    renderizarSugerencias(listaCompletaSocios);
+}
+
+function filtrarSocios() {
+    const texto = document.getElementById('buscadorSocio').value.toLowerCase().trim();
+    const filtrados = listaCompletaSocios.filter(s => s.nombre.toLowerCase().includes(texto));
+    renderizarSugerencias(filtrados);
+}
+
+function renderizarSugerencias(socios) {
+    const contenedor = document.getElementById('listaSugerencias');
+    contenedor.innerHTML = '';
+    
+    if (socios.length === 0) {
+        contenedor.style.display = 'none';
+        return;
+    }
+
+    socios.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'sugerencia-item';
+        div.innerHTML = `<span>${s.nombre}</span> <span class="sugerencia-grupo">${s.grupo}</span>`;
+        div.onclick = () => seleccionarSocioBuscador(s.nombre);
+        contenedor.appendChild(div);
+    });
+    contenedor.style.display = 'block';
+}
+
+function seleccionarSocioBuscador(nombreSocio) {
+    vibrarHaptica();
+    document.getElementById('buscadorSocio').value = nombreSocio;
+    document.getElementById('listaSugerencias').style.display = 'none';
+    document.getElementById('nombre').value = nombreSocio;
+    gestionarSocio();
+}
+
+function abrirModalPendientes(grupo) {
+    vibrarHaptica();
+    const modal = document.getElementById('modalPendientes');
+    const titulo = document.getElementById('modalTitulo');
+    const lista = document.getElementById('modalListaNombres');
+    
+    lista.innerHTML = '';
+    const pendientes = grupo === 'Martes' ? sociosPendientesMartes : sociosPendientesJueves;
+
+    titulo.textContent = `Socios sin votar (${grupo})`;
+
+    if (pendientes.length === 0) {
+        lista.innerHTML = `<li style="text-align: center; color: #888; padding: 12px;">¡Todos los socios de este grupo han votado! 🎉</li>`;
+    } else {
+        pendientes.forEach(nombre => {
+            const li = document.createElement('li');
+            li.textContent = nombre;
+            lista.appendChild(li);
+        });
+    }
+
+    modal.style.display = 'flex';
+}
+
+function cerrarModal() {
+    vibrarHaptica();
+    document.getElementById('modalPendientes').style.display = 'none';
+}
+
+function cerrarModalFuera(event) {
+    if (event.target.id === 'modalPendientes') {
+        cerrarModal();
+    }
+}
+
+function obtenerIdUnicoDispositivo() {
+    let deviceId = localStorage.getItem("gmadrid_device_uuid");
+    if (!deviceId) {
+        deviceId = 'dev_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+        localStorage.setItem("gmadrid_device_uuid", deviceId);
+    }
+    return deviceId;
+}
+
+function sanitizarId(nombre) {
+    return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "_");
+}
+
+function vibrarHaptica() {
+    if (navigator.vibrate) {
+        navigator.vibrate(35);
+    }
+}
+
+function mostrarSpinner(texto = "Procesando...") {
+    document.getElementById("textoSpinner").textContent = texto;
+    document.getElementById("spinnerOverlay").style.display = "flex";
+
+    if (temporizadorTimeout) clearTimeout(temporizadorTimeout);
+
+    temporizadorTimeout = setTimeout(() => {
+        if (document.getElementById("spinnerOverlay").style.display === "flex") {
+            ocultarSpinner();
+            procesandoOperacion = false;
+            mostrarMensaje("La operación ha tardado demasiado. Comprueba tu conexión e inténtalo de nuevo.", "error");
+        }
+    }, 10000);
+}
+
+function ocultarSpinner() {
+    if (temporizadorTimeout) {
+        clearTimeout(temporizadorTimeout);
+        temporizadorTimeout = null;
+    }
+    document.getElementById("spinnerOverlay").style.display = "none";
+}
+
+function mostrarMensaje(texto, tipo = 'exito') {
+    ocultarSpinner();
     const mensaje = document.getElementById("mensaje");
     const textoMensaje = document.getElementById("textoMensaje");
+    const btnCerrar = document.querySelector('.btn-cerrar-mensaje');
 
     if (!texto || texto.trim() === "") {
         ocultarMensaje();
         return;
     }
 
-    textoMensaje.textContent = texto;
+    const iconos = {
+        exito: "✅",
+        error: "❌",
+        advertencia: "⚠️",
+        info: "ℹ️"
+    };
+
+    const icono = iconos[tipo] || "";
+    const textoLimpio = texto.replace(/^[✅❌⚠️ℹ️]\s*/, "");
+    textoMensaje.textContent = icono ? `${icono} ${textoLimpio}` : textoLimpio;
     mensaje.style.display = "block";
 
+    let colorTexto = "";
     if (tipo === 'exito') {
         mensaje.style.background = "#dcfce7";
-        mensaje.style.color = "#16a34a";
-        document.querySelector('.btn-cerrar-mensaje').style.color = "#16a34a";
+        colorTexto = "#16a34a";
+        mensaje.style.borderColor = "#bbf7d0";
     } else if (tipo === 'advertencia') {
-        mensaje.style.background = "#eff6ff";
-        mensaje.style.color = "#0078d4";
-        document.querySelector('.btn-cerrar-mensaje').style.color = "#0078d4";
+        mensaje.style.background = "#fef3c7";
+        colorTexto = "#d97706";
+        mensaje.style.borderColor = "#fde68a";
+    } else if (tipo === 'info') {
+        mensaje.style.background = "#e0f2fe";
+        colorTexto = "#0369a1";
+        mensaje.style.borderColor = "#bae6fd";
     } else {
         mensaje.style.background = "#fee2e2";
-        mensaje.style.color = "#dc2626";
-        document.querySelector('.btn-cerrar-mensaje').style.color = "#dc2626";
+        colorTexto = "#dc2626";
+        mensaje.style.borderColor = "#fecaca";
     }
+
+    mensaje.style.color = colorTexto;
+    btnCerrar.style.color = colorTexto;
+    
+    btnCerrar.onmouseover = () => { btnCerrar.style.background = colorTexto + "1a"; };
+    btnCerrar.onmouseout = () => { btnCerrar.style.background = "transparent"; };
 }
 
-window.ocultarMensaje = function() {
+function ocultarMensaje() {
     const mensaje = document.getElementById("mensaje");
     mensaje.style.display = "none";
     document.getElementById("textoMensaje").textContent = "";
 }
 
-window.limpiarMensaje = function(){
+function limpiarMensaje(){
     ocultarMensaje();
 }
 
-window.mostrarAsistencia = function(){
-    const nombre = document.getElementById("nombre").value;
-    document.getElementById("bloqueAsistencia").style.display = nombre ? "block" : "none";
-    document.getElementById("bloqueHorario").style.display = "none";
+window.cambiarSocio = function(event) {
+    event.preventDefault();
+    vibrarHaptica();
+    localStorage.removeItem('gmadrid_socio_actual');
+    location.reload();
+}
+
+function toggleVisibilidadPin() {
+    vibrarHaptica();
+    const inputPin = document.getElementById("pinSocio");
+    const btnToggle = document.querySelector(".btn-toggle-pin");
+    if (inputPin.type === "password") {
+        inputPin.type = "text";
+        btnToggle.textContent = "Ocultar";
+    } else {
+        inputPin.type = "password";
+        btnToggle.textContent = "Mostrar";
+    }
 }
 
 window.mostrarHorario = function(){
+    vibrarHaptica();
     const asistencia = document.querySelector('input[name="asiste"]:checked');
     if(!asistencia){
         return;
@@ -594,37 +1209,248 @@ function obtenerFechaEventoGrupo(grupo){
 
     return fecha.toLocaleDateString("es-ES");
 }
+</script>
 
-function obtenerFechaEvento(){
-    const grupo = document.getElementById("nombre").selectedOptions[0].parentElement.label;
-    return obtenerFechaEventoGrupo(grupo);
-}
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    getDocs,
+    collection
+} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
 
-// Genera un ID único en Firebase incorporando el nombre con paréntesis y el grupo para evitar colisiones
-function obtenerIdSocio(nombreSeleccionado, grupo){
-    const nombreClean = nombreSeleccionado
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/\s+/g, "_");
-    return `${nombreClean}_${grupo}`;
-}
+const firebaseConfig = {
+    apiKey: "AIzaSyA5vN0AbfISP-g-TrvX4Y34cZM8lejrYUM",
+    authDomain: "fichaje-gmadrid.firebaseapp.com",
+    projectId: "fichaje-gmadrid",
+    storageBucket: "fichaje-gmadrid.firebasestorage.app",
+    messagingSenderId: "794464212993",
+    appId: "1:794464212993:web:7cd442168aa97f63d9c800"
+};
 
-window.guardarFirebase = async function(registro){
-    try{
-        const documento = doc(db, "asistencia", obtenerIdSocio(registro.nombre, registro.grupo));
-        await setDoc(documento, registro);
-        return true;
-    }
-    catch(error){
-        console.error(error);
-        mostrarMensaje("Error al guardar", "error");
-        return false;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let respuestaExistente = false;
+
+window.verificarEstadoInicial = async function() {
+    const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
+    if (!socioGuardado) return;
+
+    try {
+        const idDoc = sanitizarId(socioGuardado);
+        const refCredencial = doc(db, "credenciales_socios", idDoc);
+        const snapCredencial = await getDoc(refCredencial);
+        const deviceIdActual = obtenerIdUnicoDispositivo();
+
+        if (snapCredencial.exists() && snapCredencial.data().deviceId === deviceIdActual) {
+            document.getElementById('bloqueSelector').style.display = 'none';
+            const bloqueSaludo = document.getElementById('bloqueSaludo');
+            document.getElementById('textoSaludo').textContent = `¡Hola, ${socioGuardado}!`;
+            bloqueSaludo.style.display = 'block';
+
+            document.getElementById('nombre').value = socioGuardado;
+            document.getElementById('buscadorSocio').value = socioGuardado;
+            await prepararInterfazSocioIdentificado(socioGuardado);
+        } else {
+            localStorage.removeItem('gmadrid_socio_actual');
+            document.getElementById('bloqueSelector').style.display = 'block';
+            document.getElementById('bloqueSaludo').style.display = 'none';
+        }
+    } catch (error) {
+        console.error("Verificación inicial omitida:", error);
+        localStorage.removeItem('gmadrid_socio_actual');
+        document.getElementById('bloqueSelector').style.display = 'block';
+        document.getElementById('bloqueSaludo').style.display = 'none';
     }
 };
 
+window.gestionarSocio = async function() {
+    ocultarMensaje();
+    const nombre = document.getElementById("nombre").value;
+    if (nombre) {
+        localStorage.setItem('gmadrid_socio_actual', nombre);
+        await verificarDispositivoYCredencial(nombre);
+    } else {
+        localStorage.removeItem('gmadrid_socio_actual');
+        document.getElementById("bloquePin").style.display = "none";
+        document.getElementById("bloqueAsistencia").style.display = "none";
+        document.getElementById("bloqueHorario").style.display = "none";
+        document.getElementById("btnEnviar").style.display = "none";
+    }
+}
+
+window.verificarDispositivoYCredencial = async function(nombreSocio) {
+    mostrarSpinner("Verificando credenciales...");
+    try {
+        const idDoc = sanitizarId(nombreSocio);
+        const refCredencial = doc(db, "credenciales_socios", idDoc);
+        const snapCredencial = await getDoc(refCredencial);
+        const deviceIdActual = obtenerIdUnicoDispositivo();
+
+        ocultarSpinner();
+
+        if (snapCredencial.exists()) {
+            const data = snapCredencial.data();
+            if (data.deviceId && data.deviceId === deviceIdActual) {
+                document.getElementById("bloquePin").style.display = "none";
+                document.getElementById("pinSocio").value = "";
+                
+                document.getElementById('bloqueSelector').style.display = 'none';
+                const bloqueSaludo = document.getElementById('bloqueSaludo');
+                document.getElementById('textoSaludo').textContent = `¡Hola, ${nombreSocio}!`;
+                bloqueSaludo.style.display = 'block';
+
+                await prepararInterfazSocioIdentificado(nombreSocio);
+            } else {
+                document.getElementById("bloquePin").style.display = "block";
+                document.getElementById("etiquetaPinLabel").textContent = "Introduce tu PIN de 4 dígitos:";
+                document.getElementById("pinSocio").value = "";
+                document.getElementById("ayudaPinCreacion").style.display = "none";
+                document.getElementById("bloqueAsistencia").style.display = "none";
+                document.getElementById("bloqueHorario").style.display = "none";
+                document.getElementById("btnEnviar").style.display = "none";
+            }
+        } else {
+            document.getElementById("bloquePin").style.display = "block";
+            document.getElementById("etiquetaPinLabel").textContent = "Crea tu PIN nuevo de 4 dígitos:";
+            document.getElementById("pinSocio").value = "";
+            document.getElementById("ayudaPinCreacion").style.display = "block";
+            document.getElementById("bloqueAsistencia").style.display = "none";
+            document.getElementById("bloqueHorario").style.display = "none";
+            document.getElementById("btnEnviar").style.display = "none";
+        }
+    } catch (error) {
+        console.error("Error verificando credenciales:", error);
+        ocultarSpinner();
+        document.getElementById("bloquePin").style.display = "block";
+        document.getElementById("etiquetaPinLabel").textContent = "Introduce tu PIN de 4 dígitos:";
+        document.getElementById("pinSocio").value = "";
+        document.getElementById("ayudaPinCreacion").style.display = "none";
+    }
+};
+
+window.validarOConfigurarPin = async function() {
+    if (procesandoOperacion) return;
+    vibrarHaptica();
+    const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
+    const nombreSocioSelect = document.getElementById("nombre").value;
+    const nombreSocio = socioGuardado || nombreSocioSelect;
+    const pinInput = document.getElementById("pinSocio").value.trim();
+
+    if (!nombreSocio) {
+        mostrarMensaje("Socio no identificado.", "error");
+        return;
+    }
+
+    if (pinInput.length !== 4 || isNaN(pinInput)) {
+        mostrarMensaje("El PIN debe tener exactamente 4 dígitos numéricos.", "advertencia");
+        return;
+    }
+
+    procesandoOperacion = true;
+    mostrarSpinner("Validando PIN...");
+    try {
+        const idDoc = sanitizarId(nombreSocio);
+        const refCredencial = doc(db, "credenciales_socios", idDoc);
+        const snapCredencial = await getDoc(refCredencial);
+        const deviceIdActual = obtenerIdUnicoDispositivo();
+
+        if (snapCredencial.exists()) {
+            const data = snapCredencial.data();
+            if (data.pin && data.pin === pinInput) {
+                await setDoc(refCredencial, { pin: pinInput, deviceId: deviceIdActual }, { merge: true });
+                document.getElementById("bloquePin").style.display = "none";
+                document.getElementById("pinSocio").value = "";
+                
+                document.getElementById('bloqueSelector').style.display = 'none';
+                const bloqueSaludo = document.getElementById('bloqueSaludo');
+                document.getElementById('textoSaludo').textContent = `¡Hola, ${nombreSocio}!`;
+                bloqueSaludo.style.display = 'block';
+
+                await prepararInterfazSocioIdentificado(nombreSocio);
+                procesandoOperacion = false;
+                mostrarMensaje("Dispositivo vinculado correctamente.", "exito");
+            } else {
+                procesandoOperacion = false;
+                mostrarMensaje("PIN incorrecto. Inténtalo de nuevo.", "error");
+            }
+        } else {
+            await setDoc(refCredencial, { pin: pinInput, deviceId: deviceIdActual });
+            document.getElementById("bloquePin").style.display = "none";
+            document.getElementById("pinSocio").value = "";
+            
+            document.getElementById('bloqueSelector').style.display = 'none';
+            const bloqueSaludo = document.getElementById('bloqueSaludo');
+            document.getElementById('textoSaludo').textContent = `¡Hola, ${nombreSocio}!`;
+            bloqueSaludo.style.display = 'block';
+
+            await prepararInterfazSocioIdentificado(nombreSocio);
+            procesandoOperacion = false;
+            mostrarMensaje("PIN configurado y dispositivo vinculado con éxito.", "exito");
+        }
+    } catch (error) {
+        procesandoOperacion = false;
+        console.error("Error procesando PIN:", error);
+        mostrarMensaje("Error al procesar el PIN en la base de datos.", "error");
+    }
+};
+
+async function prepararInterfazSocioIdentificado(nombreSocio) {
+    const selectElement = document.getElementById("nombre");
+    let grupoSeleccionado = "";
+    for (let optgroup of selectElement.querySelectorAll("optgroup")) {
+        for (let opt of optgroup.querySelectorAll("option")) {
+            if (opt.textContent === nombreSocio) {
+                grupoSeleccionado = optgroup.label;
+                break;
+            }
+        }
+        if (grupoSeleccionado) break;
+    }
+
+    // Seleccionar automáticamente el grupo del socio en el filtro desplegable
+    if (grupoSeleccionado) {
+        const filtroGrupoEl = document.getElementById("filtroGrupo");
+        if (filtroGrupoEl) {
+            filtroGrupoEl.value = grupoSeleccionado;
+            filtroInicialEstablecido = true;
+        }
+    }
+
+    document.getElementById("bloqueAsistencia").style.display = "block";
+    document.getElementById("btnEnviar").style.display = "block";
+
+    document.querySelectorAll('input[name="asiste"]').forEach(radio => radio.checked = false);
+    document.querySelectorAll('input[name="hora"]').forEach(radio => radio.checked = false);
+    document.getElementById("bloqueHorario").style.display = "none";
+    respuestaExistente = false;
+    document.getElementById("btnEnviar").textContent = "Enviar respuesta";
+
+    await buscarRespuestaSocio(nombreSocio, grupoSeleccionado);
+    cargarAsistentes();
+
+    let fechaEvento = "";
+    if(grupoSeleccionado === "Martes"){
+        fechaEvento = obtenerProximoDiaSemana(2);
+    } else if(grupoSeleccionado === "Jueves"){
+        fechaEvento = obtenerProximoDiaSemana(4);
+    }
+
+    document.getElementById("textoAsistencia").textContent = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}?`;
+}
+
+function obtenerIdSocioAsistencia(nombreSeleccionado, grupo){
+    const nombreClean = sanitizarId(nombreSeleccionado);
+    return `${nombreClean}_${grupo}`;
+}
+
 window.buscarRespuestaSocio = async function(nombreSeleccionado, grupo){
     try{
-        const documento = doc(db, "asistencia", obtenerIdSocio(nombreSeleccionado, grupo));
+        const documento = doc(db, "asistencia", obtenerIdSocioAsistencia(nombreSeleccionado, grupo));
         const resultado = await getDoc(documento);
 
         if(!resultado.exists()){
@@ -648,131 +1474,156 @@ window.buscarRespuestaSocio = async function(nombreSeleccionado, grupo){
             radio.checked = radio.value === datos.asistencia;
         });
 
-        mostrarHorario();
+        window.mostrarHorario();
 
         document.querySelectorAll('input[name="hora"]').forEach(radio => {
             radio.checked = radio.value === datos.horaLlegada;
         });
 
-        mostrarMensaje("ℹ️ Respuesta recuperada correctamente", "advertencia");
+        mostrarMensaje("Respuesta recuperada correctamente", "info");
     }
     catch(error){
         console.error(error);
     }
 };
 
-window.cargarSocio = async function(){
-    limpiarMensaje();
-    respuestaExistente = false;
-
-    document.getElementById("btnEnviar").textContent = "Enviar respuesta";
-
-    document.querySelectorAll('input[name="asiste"]').forEach(radio => {
-        radio.checked = false;
-    });
-
-    document.querySelectorAll('input[name="hora"]').forEach(radio => {
-        radio.checked = false;
-    });
-
-    document.getElementById("bloqueHorario").style.display = "none";
-
-    const selectElement = document.getElementById("nombre");
-    const valorSeleccionado = selectElement.value;
-
-    if(!valorSeleccionado){
-        localStorage.removeItem('gmadrid_socio_actual');
-        document.getElementById("bloqueAsistencia").style.display = "none";
-        return;
+window.guardarFirebase = async function(registro){
+    try{
+        const documento = doc(db, "asistencia", obtenerIdSocioAsistencia(registro.nombre, registro.grupo));
+        await setDoc(documento, registro);
+        return true;
     }
-
-    const grupoSeleccionado = selectElement.selectedOptions[0].parentElement.label;
-
-    localStorage.setItem('gmadrid_socio_actual', valorSeleccionado);
-    document.getElementById("bloqueAsistencia").style.display = "block";
-
-    await buscarRespuestaSocio(valorSeleccionado, grupoSeleccionado);
-    
-    let fechaEvento = "";
-
-    if(grupoSeleccionado === "Martes"){
-        fechaEvento = obtenerProximoDiaSemana(2);
-    } else if(grupoSeleccionado === "Jueves"){
-        fechaEvento = obtenerProximoDiaSemana(4);
+    catch(error){
+        console.error(error);
+        mostrarMensaje("Error al guardar", "error");
+        return false;
     }
-
-    document.getElementById("textoAsistencia").textContent = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}?`;
-}
+};
 
 window.enviarRespuesta = async function(){
+    if (procesandoOperacion) return;
+    vibrarHaptica();
+
     const selectElement = document.getElementById("nombre");
-    const grupo = selectElement.selectedOptions[0].parentElement.label;
-    const valorSeleccionado = selectElement.value; // Mantiene "Carlos (Martes)" o "Carlos (Jueves)"
+    const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
+    const valorSeleccionado = socioGuardado || selectElement.value;
     
+    let grupo = "";
+    for (let optgroup of selectElement.querySelectorAll("optgroup")) {
+        for (let opt of optgroup.querySelectorAll("option")) {
+            if (opt.textContent === valorSeleccionado) {
+                grupo = optgroup.label;
+                break;
+            }
+        }
+        if (grupo) break;
+    }
+
     const asistencia = document.querySelector('input[name="asiste"]:checked');
     const hora = document.querySelector('input[name="hora"]:checked');
 
     if(!valorSeleccionado){
-        mostrarMensaje("❌ Selecciona tu nombre", "error");
+        mostrarMensaje("Socio no identificado", "error");
         return;
     }
 
     if(!asistencia){
-        mostrarMensaje("❌ Selecciona una opción de asistencia", "error");
+        mostrarMensaje("Selecciona una opción de asistencia", "error");
         return;
     }
 
     if(asistencia.value === "si" && !hora){
-        mostrarMensaje("❌ Indica una hora aproximada", "error");
+        mostrarMensaje("Indica una hora aproximada", "error");
         return;
     }
 
+    procesandoOperacion = true;
+    const esModificacion = respuestaExistente;
+    mostrarSpinner(esModificacion ? "Modificando respuesta..." : "Guardando respuesta...");
+
     const registro = {
-        nombre: valorSeleccionado, // Se guarda completo con el paréntesis en Firebase
+        nombre: valorSeleccionado,
         grupo,
         asistencia: asistencia.value,
         horaLlegada: hora ? hora.value : "",
-        fechaEvento: obtenerFechaEvento(),
+        fechaEvento: obtenerFechaEventoGrupo(grupo),
         fechaRespuesta: new Date().toLocaleDateString("es-ES"),
         horaRespuesta: new Date().toLocaleTimeString("es-ES")
     };
 
     const guardado = await guardarFirebase(registro);
+    procesandoOperacion = false;
 
     if(guardado){
+        respuestaExistente = true;
+        document.getElementById("btnEnviar").textContent = "Modificar respuesta";
         cargarAsistentes();
-        mostrarMensaje(respuestaExistente ? "✅ Respuesta editada correctamente" : "✅ Respuesta registrada correctamente", "exito");
+        mostrarMensaje(esModificacion ? "Respuesta modificada correctamente" : "Respuesta registrada correctamente", "exito");
     }
 }
 
 window.cargarAsistentes = async function(){
     const asistentes = [];
+    
+    const sociosMartesOficiales = [
+        "Álvaro Ascariz", "Álvaro Barreiro", "Álvaro de la Parte", "Álvaro de Mera", "Álvaro F. Chércoles", 
+        "Álvaro Fernández", "Álvaro Moreno", "André", "Ansel", "Blanca", "Carlos (Martes)", "Craig", 
+        "David Horcajada", "Edu", "Fer", "Fran", "Francesco", "Iyan", "José (Martes)", "Juan", 
+        "Kike", "Manu (México)", "Manu (Telecinco)", "Miguel", "Noli", "Rubén", "Víctor (Martes)", "Xavi", "Yeray"
+    ];
+
+    const sociosJuevesOficiales = [
+        "Adrián", "Alberto Carranza", "Alberto Tesoldi", "Ángel", "Beñat", "Carlos (Jueves)", 
+        "Daniel Alfayate", "Daniel Gimeno", "Daniel Sánchez", "David Rodríguez (Dave)", "David Rodríguez (Ebri)", 
+        "Diego", "Ismael", "Iván", "Jaime", "José (Jueves)", "Koke", "Lionel", "Moha", "Rubén Alonso", "Toño", "Víctor (Jueves)"
+    ];
+
+    let votadosMartesSet = new Set();
+    let votadosJuevesSet = new Set();
+
     let asistentesMartes = 0;
     let asistentesJueves = 0;
     let dudasMartes = 0;
     let dudasJueves = 0;
 
     try{
-        const tabla = document.getElementById("tablaAsistentes");
+        // Si aún no se ha establecido por el socio logueado, intentamos autoseleccionar si el usuario ya está elegido en el selector oculto
+        if (!filtroInicialEstablecido) {
+            const socioActual = localStorage.getItem('gmadrid_socio_actual') || document.getElementById("nombre").value;
+            if (socioActual) {
+                const selectElement = document.getElementById("nombre");
+                for (let optgroup of selectElement.querySelectorAll("optgroup")) {
+                    for (let opt of optgroup.querySelectorAll("option")) {
+                        if (opt.textContent === socioActual) {
+                            document.getElementById("filtroGrupo").value = optgroup.label;
+                            filtroInicialEstablecido = true;
+                            break;
+                        }
+                    }
+                    if (filtroInicialEstablecido) break;
+                }
+            }
+        }
+
         const filtroGrupo = document.getElementById("filtroGrupo").value;
         const mostrarNo = document.getElementById("filtroNo").checked;
         const mostrarDuda = document.getElementById("filtroDuda").checked;
 
-        tabla.innerHTML = "";
-
         const snapshot = await getDocs(collection(db, "asistencia"));
 
-        snapshot.forEach(doc => {
-            const datos = doc.data();
+        snapshot.forEach(docSnap => {
+            const datos = docSnap.data();
             
             if(datos.fechaEvento === obtenerFechaEventoGrupo(datos.grupo)){
-                if(datos.asistencia === "si"){
-                    if(datos.grupo === "Martes") asistentesMartes++;
-                    if(datos.grupo === "Jueves") asistentesJueves++;
+                if(datos.grupo === "Martes") {
+                    votadosMartesSet.add(datos.nombre);
+                    if(datos.asistencia === "si") asistentesMartes++;
+                    if(datos.asistencia === "duda") dudasMartes++;
                 }
-                if(datos.asistencia === "duda"){
-                    if(datos.grupo === "Martes") dudasMartes++;
-                    if(datos.grupo === "Jueves") dudasJueves++;
+                if(datos.grupo === "Jueves") {
+                    votadosJuevesSet.add(datos.nombre);
+                    if(datos.asistencia === "si") asistentesJueves++;
+                    if(datos.asistencia === "duda") dudasJueves++;
                 }
             }
 
@@ -783,6 +1634,9 @@ window.cargarAsistentes = async function(){
             }
         });
 
+        sociosPendientesMartes = sociosMartesOficiales.filter(nombre => !votadosMartesSet.has(nombre));
+        sociosPendientesJueves = sociosJuevesOficiales.filter(nombre => !votadosJuevesSet.has(nombre));
+
         asistentes.sort((a,b)=>{
             const orden = { si: 1, duda: 2, no: 3 };
             if(orden[a.asistencia] !== orden[b.asistencia]){
@@ -791,75 +1645,131 @@ window.cargarAsistentes = async function(){
             return (a.horaLlegada || "").localeCompare(b.horaLlegada || "");
         });
 
-        const plazasLibresMartes = 28 - asistentesMartes - dudasMartes;
-        const plazasLibresJueves = 22 - asistentesJueves - dudasJueves;
+        // Guardamos en caché global para la paginación
+        listaAsistentesCache = asistentes;
+        renderizarTablaPaginada();
 
-        const expansionMartes = Math.min(3, plazasLibresMartes);
-        const erasmusMartes = Math.max(0, plazasLibresMartes - 3);
+        const socioActual = localStorage.getItem('gmadrid_socio_actual') || document.getElementById("nombre").value;
+        const esCoord = esCoordinadorActual(socioActual);
+        const contenedorResumen = document.getElementById("contenedorResumenPlazas");
 
-        const expansionJueves = Math.min(3, plazasLibresJueves);
-        const erasmusJueves = Math.max(0, plazasLibresJueves - 3);
-        
-        const fechaMartes = obtenerFechaEventoGrupo("Martes");
-        const fechaJueves = obtenerFechaEventoGrupo("Jueves");
+        if (esCoord) {
+            contenedorResumen.style.display = "block";
 
-        let resumen = "";
+            const maxMartes = 28;
+            const maxJueves = 22;
 
-        if(filtroGrupo === "Todos" || filtroGrupo === "Martes"){
-            resumen += `<b>Martes (${fechaMartes}):</b> ${asistentesMartes} asistentes, ${plazasLibresMartes} plazas libres (${expansionMartes} Expansión, ${erasmusMartes} Erasmus).`;
-        }
+            const plazasLibresMartes = maxMartes - asistentesMartes - dudasMartes;
+            const plazasLibresJueves = maxJueves - asistentesJueves - dudasJueves;
 
-        if(filtroGrupo === "Todos" && resumen !== ""){
-            resumen += "<br><br>";
-        }
+            const expansionMartes = Math.min(3, plazasLibresMartes);
+            const erasmusMartes = Math.max(0, plazasLibresMartes - 3);
 
-        if(filtroGrupo === "Todos" || filtroGrupo === "Jueves"){
-            resumen += `<b>Jueves (${fechaJueves}):</b> ${asistentesJueves} asistentes, ${plazasLibresJueves} plazas libres (${expansionJueves} Expansión, ${erasmusJueves} Erasmus).`;
-        }
+            const expansionJueves = Math.min(3, plazasLibresJueves);
+            const erasmusJueves = Math.max(0, plazasLibresJueves - 3);
 
-        document.getElementById("resumenPlazas").innerHTML = resumen;
-
-        if (asistentes.length === 0) {
-            tabla.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #888; padding: 20px;">No hay registros para este filtro.</td></tr>`;
-            return;
-        }
-
-        asistentes.forEach(persona => {
-            let estado = "";
-            if(persona.asistencia === "si"){
-                estado = "🟢 Sí";
-            } else if(persona.asistencia === "no"){
-                estado = "🔴 No";
-            } else {
-                estado = "🟠 En duda";
-            }
+            const porcMartes = Math.min(100, Math.round(((asistentesMartes + dudasMartes) / maxMartes) * 100));
+            const porcJueves = Math.min(100, Math.round(((asistentesJueves + dudasJueves) / maxJueves) * 100));
             
-            // Aquí quitamos el paréntesis (Martes) / (Jueves) solo para mostrarlo limpio en la tabla
-            const nombreLimpio = (persona.nombre || "").replace(/\s*\((Martes|Jueves)\)/gi, "").trim();
+            const fechaMartes = obtenerFechaEventoGrupo("Martes");
+            const fechaJueves = obtenerFechaEventoGrupo("Jueves");
 
-            tabla.innerHTML += `
-                <tr>
-                    <td>${nombreLimpio}</td>
-                    <td>${persona.grupo || "-"}</td>
-                    <td>${estado}</td>
-                    <td>${persona.horaLlegada || "-"}</td>
-                </tr>
-            `;
-        });
+            let resumenHTML = "";
+
+            if(filtroGrupo === "Todos" || filtroGrupo === "Martes"){
+                resumenHTML += `
+                    <div style="margin-bottom: 14px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
+                            <span><b>Martes (${fechaMartes}):</b> ${asistentesMartes} asistentes, ${plazasLibresMartes} plazas libres (${expansionMartes} Expansión, ${erasmusMartes} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Martes')">(${sociosPendientesMartes.length} sin votar)</button></span>
+                            <span style="font-weight:700;">${porcMartes}%</span>
+                        </div>
+                        <div class="progress-container"><div class="progress-bar-arcoiris" style="width: ${porcMartes}%;"></div></div>
+                    </div>
+                `;
+            }
+
+            if(filtroGrupo === "Todos" || filtroGrupo === "Jueves"){
+                resumenHTML += `
+                    <div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
+                            <span><b>Jueves (${fechaJueves}):</b> ${asistentesJueves} asistentes, ${plazasLibresJueves} plazas libres (${expansionJueves} Expansión, ${erasmusJueves} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Jueves')">(${sociosPendientesJueves.length} sin votar)</button></span>
+                            <span style="font-weight:700;">${porcJueves}%</span>
+                        </div>
+                        <div class="progress-container"><div class="progress-bar-arcoiris" style="width: ${porcJueves}%;"></div></div>
+                    </div>
+                `;
+            }
+
+            document.getElementById("resumenPlazas").innerHTML = resumenHTML;
+        } else {
+            contenedorResumen.style.display = "none";
+        }
     }
     catch(error){
         console.error(error);
     }
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-    const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
-    if (socioGuardado) {
-        document.getElementById('nombre').value = socioGuardado;
-        cargarSocio();
+window.renderizarTablaPaginada = function() {
+    const tabla = document.getElementById("tablaAsistentes");
+    const contenedorPaginacion = document.getElementById("contenedorPaginacion");
+    const btnAnterior = document.getElementById("btnAnterior");
+    const btnSiguiente = document.getElementById("btnSiguiente");
+    const infoPaginacion = document.getElementById("infoPaginacion");
+
+    tabla.innerHTML = "";
+
+    if (listaAsistentesCache.length === 0) {
+        tabla.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #888; padding: 20px;">No hay registros para este filtro.</td></tr>`;
+        contenedorPaginacion.style.display = "none";
+        return;
     }
-    cargarAsistentes();
-});
+
+    const totalPaginas = Math.ceil(listaAsistentesCache.length / registrosPorPagina);
+    if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+    if (paginaActual < 1) paginaActual = 1;
+
+    const inicio = (paginaActual - 1) * registrosPorPagina;
+    const fin = inicio + registrosPorPagina;
+    const asistentesPagina = listaAsistentesCache.slice(inicio, fin);
+
+    asistentesPagina.forEach(persona => {
+        let estado = "";
+        if(persona.asistencia === "si"){
+            estado = "🟢 Sí";
+        } else if(persona.asistencia === "no"){
+            estado = "🔴 No";
+        } else {
+            estado = "🟠 En duda";
+        }
+        
+        const nombreLimpio = (persona.nombre || "").replace(/\s*\((Martes|Jueves)\)/gi, "").trim();
+
+        tabla.innerHTML += `
+            <tr>
+                <td><b>${nombreLimpio}</b></td>
+                <td>${persona.grupo || "-"}</td>
+                <td>${estado}</td>
+                <td>${persona.horaLlegada || "-"}</td>
+            </tr>
+        `;
+    });
+
+    if (listaAsistentesCache.length > registrosPorPagina) {
+        contenedorPaginacion.style.display = "flex";
+        infoPaginacion.textContent = `Página ${paginaActual} de ${totalPaginas}`;
+        btnAnterior.disabled = paginaActual === 1;
+        btnSiguiente.disabled = paginaActual === totalPaginas;
+    } else {
+        contenedorPaginacion.style.display = "none";
+    }
+}
+
+window.cambiarPagina = function(direccion) {
+    vibrarHaptica();
+    paginaActual += direccion;
+    renderizarTablaPaginada();
+}
 </script>
 
 </body>
