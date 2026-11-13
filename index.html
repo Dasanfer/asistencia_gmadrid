@@ -32,6 +32,7 @@ body{
     min-height: 100vh;
     margin: 15px;
     color: #333;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .wrapper-principal {
@@ -46,7 +47,6 @@ header, main, footer{
     width: 100%;
 }
 
-/* Encabezados modernos y limpios */
 .header-principal {
     text-align: center;
     margin-bottom: 25px;
@@ -72,7 +72,6 @@ header, main, footer{
     border-radius: 20px;
 }
 
-/* Saludo sobrio, grande, sin fondo y con enlace de cambiar socio */
 #bloqueSaludo {
     display: none;
     text-align: center;
@@ -100,7 +99,6 @@ header, main, footer{
     text-decoration: underline;
 }
 
-/* Buscador inteligente de socios con autocompletado */
 .buscador-container {
     position: relative;
     margin-top: 8px;
@@ -180,7 +178,6 @@ header, main, footer{
     border-radius: 12px;
 }
 
-/* Contenedor del input PIN con botón interno de texto */
 .input-pin-wrapper {
     position: relative;
     display: flex;
@@ -236,7 +233,6 @@ header, main, footer{
     line-height: 1.5;
 }
 
-/* Footer informativo llamativo */
 .footer-informativo {
     background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
     border: 1px solid #b3d7ff;
@@ -255,7 +251,6 @@ header, main, footer{
     line-height: 1.5;
 }
 
-/* Contenedores generales */
 .container{
     background: white;
     padding: 28px;
@@ -270,7 +265,6 @@ header, main, footer{
     font-weight: 600;
     font-size: 14px;
     margin-top: 10px;
-    margin-bottom: 8px;
     color: #444;
 }
 
@@ -307,7 +301,8 @@ button{
     color: white;
     font-weight: bold;
     font-size: 15px;
-    transition: background 0.2s, transform 0.1s;
+    touch-action: manipulation;
+    transition: background 0.2s;
 }
 
 button:hover:not(:disabled){
@@ -323,7 +318,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Alerta flotante fija arriba */
 #mensaje {
     position: fixed;
     top: 20px;
@@ -365,7 +359,6 @@ button:disabled {
     transition: all 0.2s ease;
 }
 
-/* Spinner overlay semiopaco */
 #spinnerOverlay {
     position: fixed;
     top: 0;
@@ -401,7 +394,6 @@ button:disabled {
     margin-top: 20px;
 }
 
-/* Cuadrícula optimizada Mobile-First para opciones de asistencia */
 .grid-opciones {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -426,13 +418,31 @@ button:disabled {
     border: 2px solid #e2e8f0;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    touch-action: manipulation;
     margin-top: 0 !important;
     text-align: center;
 }
 
-/* Ocultar visualmente el radio button conservando su accesibilidad y permitir selección por borde */
-.opcion-card input[type="radio"] {
+/* Estilo específico para los filtros de la tabla para igualar la altura exacta de los select (padding de 13px y border-radius de 8px) */
+.opcion-card-filtro {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 10px;
+    background: #fafbfc;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    cursor: pointer;
+    touch-action: manipulation;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.opcion-card input[type="radio"],
+.opcion-card-filtro input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
@@ -443,10 +453,28 @@ button:disabled {
     border-color: #0078d4;
 }
 
-/* Estado seleccionado con borde destacado azul y fondo acorde al hover */
-.opcion-card:has(input[type="radio"]:checked) {
-    background: #f0f7ff;
+.opcion-card-filtro:hover {
+    background: #f1f5f9;
     border-color: #0078d4;
+}
+
+/* Estado seleccionado gestionado por JS para evitar parpadeos */
+.opcion-card.seleccionada {
+    background: #f0f7ff !important;
+    border-color: #0078d4 !important;
+}
+
+.opcion-card-filtro.seleccionada {
+    background: #f0f7ff !important;
+    border-color: #0078d4 !important;
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+}
+
+.opcion-card.deshabilitada,
+.opcion-card-filtro.deshabilitada {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #fafbfc;
 }
 
 .opcion-texto {
@@ -455,7 +483,6 @@ button:disabled {
     font-weight: 700;
 }
 
-/* Grid para franjas horarias */
 .grid-horario {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -469,7 +496,6 @@ button:disabled {
     }
 }
 
-/* Diseño Mobile-First para los controles de filtrado de la tabla */
 .filtros-mobile-grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -485,17 +511,18 @@ button:disabled {
 }
 
 .checkboxes-asistencia-grid {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    background: #f8fafc;
-    padding: 13px 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 0px;
 }
 
-/* Enlace discreto interactivo para ver pendientes */
+@media(max-width: 600px) {
+    .checkboxes-asistencia-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .link-pendientes {
     color: #64748b;
     font-style: italic;
@@ -516,7 +543,6 @@ button:disabled {
     background: none !important;
 }
 
-/* Estilos de la ventana Modal */
 #modalPendientes {
     position: fixed;
     top: 0;
@@ -593,7 +619,6 @@ button:disabled {
     border-bottom: none;
 }
 
-/* Barra de progreso con gradiente arcoíris */
 .progress-container {
     background: #e2e8f0;
     border-radius: 6px;
@@ -610,7 +635,6 @@ button:disabled {
     transition: width 0.4s ease;
 }
 
-/* Estilo moderno y limpio para la tabla de asistentes */
 .tabla-moderna-wrapper {
     overflow-x: auto;
     margin-top: 18px;
@@ -649,7 +673,6 @@ tr:hover td {
     background: #f8fafc;
 }
 
-/* Controles de paginación elegantes */
 .paginacion-container {
     display: flex;
     justify-content: space-between;
@@ -706,7 +729,6 @@ details[open] summary::before{
 </head>
 <body>
 
-<!-- Alerta flotante fija arriba -->
 <div id="mensaje">
     <div class="mensaje-contenido">
         <span id="textoMensaje"></span>
@@ -714,13 +736,11 @@ details[open] summary::before{
     </div>
 </div>
 
-<!-- Spinner Overlay con timeout de seguridad -->
 <div id="spinnerOverlay">
     <div class="spinner"></div>
     <span id="textoSpinner">Procesando...</span>
 </div>
 
-<!-- Modal para ver personas sin votar -->
 <div id="modalPendientes" onclick="cerrarModalFuera(event)">
     <div class="modal-content">
         <div class="modal-header">
@@ -744,7 +764,6 @@ details[open] summary::before{
     <main>
         <div class="container">
 
-            <!-- Saludo sobrio, grande, sin fondo y con enlace de cambiar socio -->
             <div id="bloqueSaludo">
                 <div id="textoSaludo" class="texto-saludo-principal"></div>
                 <div>
@@ -752,7 +771,6 @@ details[open] summary::before{
                 </div>
             </div>
 
-            <!-- Buscador inteligente con autocompletado en tiempo real -->
             <div id="bloqueSelector">
                 <label for="buscadorSocio"><b>Busca o selecciona tu nombre:</b></label>
                 <div class="buscador-container">
@@ -762,10 +780,8 @@ details[open] summary::before{
                 </div>
             </div>
 
-            <!-- Contenedor dinámico oculto para guardar selección -->
             <select id="nombre" style="display:none;" onchange="gestionarSocio()"></select>
 
-            <!-- Contenedor dinámico para PIN -->
             <div id="bloquePin" class="bloque" style="display: none;">
                 <label for="pinSocio"><b id="etiquetaPinLabel">Introduce tu PIN de 4 dígitos:</b></label>
                 <div class="input-pin-wrapper">
@@ -782,17 +798,17 @@ details[open] summary::before{
             <b><label id="textoAsistencia"></label></b>
 
             <div class="grid-opciones">
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('asiste')">
                     <input type="radio" name="asiste" value="si" onchange="limpiarMensaje(); mostrarHorario();">
                     <span class="opcion-texto">🟢 Sí</span>
                 </label>
 
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('asiste')">
                     <input type="radio" name="asiste" value="no" onchange="limpiarMensaje(); mostrarHorario();">
                     <span class="opcion-texto">🔴 No</span>
                 </label>
 
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('asiste')">
                     <input type="radio" name="asiste" value="duda" onchange="limpiarMensaje(); mostrarHorario();">
                     <span class="opcion-texto">🟠 En duda</span>
                 </label>
@@ -802,25 +818,25 @@ details[open] summary::before{
 
             <div id="bloqueHorario" class="bloque" style="display:none;">
 
-            <label><b>Hora aproximada de llegada:</b></label>
+            <label>Hora aproximada de llegada *:</label>
 
             <div class="grid-horario">
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('hora')">
                     <input type="radio" name="hora" value="17:30-18:00">
                     <span class="opcion-texto">17:30H - 18:00H</span>
                 </label>
 
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('hora')">
                     <input type="radio" name="hora" value="18:00-18:30">
                     <span class="opcion-texto">18:00H - 18:30H</span>
                 </label>
 
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('hora')">
                     <input type="radio" name="hora" value="18:30-19:00">
                     <span class="opcion-texto">18:30H - 19:00H</span>
                 </label>
 
-                <label class="opcion-card">
+                <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('hora')">
                     <input type="radio" name="hora" value="19:00+">
                     <span class="opcion-texto">A partir de las 19:00H</span>
                 </label>
@@ -840,10 +856,9 @@ details[open] summary::before{
                 Asistencia de socios para su próximo día
             </summary>
             
-            <!-- Filtros de grupo y asistencia maquetados en formato Mobile-First -->
             <div class="filtros-mobile-grid">
                 <div>
-                    <label style="margin-top:0; margin-bottom: 8px;"><b>Grupo:</b></label>
+                    <label style="margin-top:0; margin-bottom: 19px;">Grupo:</label>
                     <select id="filtroGrupo" onchange="paginaActual = 1; cargarAsistentes();">
                         <option value="Todos">Todos</option>
                         <option value="Martes">Martes</option>
@@ -852,16 +867,19 @@ details[open] summary::before{
                 </div>
                 
                 <div>
-                    <label style="margin-top:0; margin-bottom: 8px;"><b>Asistencia:</b></label>
+                    <label style="margin-top:0; margin-bottom: 8px;">Asistencia:</label>
                     <div class="checkboxes-asistencia-grid">
-                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-                            <input type="checkbox" id="filtroSi" checked disabled style="width: auto;"> Sí
+                        <label class="opcion-card-filtro seleccionada deshabilitada" title="El filtro Sí está activado por defecto">
+                            <input type="checkbox" id="filtroSi" checked disabled>
+                            <span class="opcion-texto">🟢 Sí</span>
                         </label>
-                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-                            <input type="checkbox" id="filtroNo" onchange="paginaActual = 1; cargarAsistentes();" style="width: auto;"> No
+                        <label class="opcion-card-filtro" id="cardFiltroNo" onclick="toggleFiltroCheckbox('filtroNo')">
+                            <input type="checkbox" id="filtroNo" onchange="paginaActual = 1; cargarAsistentes();">
+                            <span class="opcion-texto">🔴 No</span>
                         </label>
-                        <label style="margin-top:0; align-items: center; gap: 6px; cursor:pointer;">
-                            <input type="checkbox" id="filtroDuda" onchange="paginaActual = 1; cargarAsistentes();" style="width: auto;"> En duda
+                        <label class="opcion-card-filtro" id="cardFiltroDuda" onclick="toggleFiltroCheckbox('filtroDuda')">
+                            <input type="checkbox" id="filtroDuda" onchange="paginaActual = 1; cargarAsistentes();">
+                            <span class="opcion-texto">🟠 En duda</span>
                         </label>
                     </div>
                 </div>
@@ -881,14 +899,12 @@ details[open] summary::before{
                 </table>
             </div>
 
-            <!-- Paginación elegante -->
             <div id="contenedorPaginacion" class="paginacion-container" style="display: none;">
                 <button type="button" id="btnAnterior" onclick="cambiarPagina(-1)">← Anterior</button>
                 <span id="infoPaginacion" class="paginacion-info">Página 1 de 1</span>
                 <button type="button" id="btnSiguiente" onclick="cambiarPagina(1)">Siguiente →</button>
             </div>
             
-            <!-- Contenedor exclusivo para coordinadores -->
             <div id="contenedorResumenPlazas" style="display: none;">
                 <hr style="border: none; border-top: 1px solid #eaeaea; margin: 24px 0;">
                 <small id="resumenPlazas" style="color: #555; line-height: 1.6; display: block;"></small>
@@ -898,7 +914,6 @@ details[open] summary::before{
     </main>
 
     <footer>
-        <!-- Footer Informativo -->
         <div class="footer-informativo">
             <p>💬 ¿Tienes algún problema, duda o sugerencia? Contacta con <b>Daniel Sánchez</b></p>
         </div>
@@ -912,11 +927,10 @@ let listaCompletaSocios = [];
 let sociosPendientesMartes = [];
 let sociosPendientesJueves = [];
 
-// Variables globales para la paginación de la tabla
 let listaAsistentesCache = [];
 let paginaActual = 1;
 const registrosPorPagina = 10;
-let filtroInicialEstablecido = false; // Control para establecer el grupo del socio por defecto solo una vez
+let filtroInicialEstablecido = false;
 
 const COORDINADORES_AUTORIZADOS = [
     "Álvaro de la Parte",
@@ -938,6 +952,38 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function actualizarEstiloSeleccionRadio(nombreGrupo) {
+    document.querySelectorAll(`input[name="${nombreGrupo}"]`).forEach(input => {
+        const card = input.closest('.opcion-card');
+        if (card) {
+            if (input.checked) {
+                card.classList.add('seleccionada');
+            } else {
+                card.classList.remove('seleccionada');
+            }
+        }
+    });
+}
+
+function toggleFiltroCheckbox(idCheckbox) {
+    const checkbox = document.getElementById(idCheckbox);
+    if (!checkbox || checkbox.disabled) return;
+    
+    checkbox.checked = !checkbox.checked;
+    
+    const card = checkbox.closest('.opcion-card-filtro');
+    if (card) {
+        if (checkbox.checked) {
+            card.classList.add('seleccionada');
+        } else {
+            card.classList.remove('seleccionada');
+        }
+    }
+    
+    // Disparar evento change manualmente para recargar la tabla
+    checkbox.dispatchEvent(new Event('change'));
+}
+
 function esCoordinadorActual(nombreSocio) {
     if (!nombreSocio) return false;
     return COORDINADORES_AUTORIZADOS.some(coord => 
@@ -950,10 +996,10 @@ function inicializarListaSocios() {
     select.innerHTML = `
         <option value="">Selecciona tu nombre</option>
         <optgroup label="Martes">
-            <option>Álvaro Ascariz</option><option>Álvaro Barreiro</option><option>Álvaro de la Parte</option><option>Álvaro de Mera</option><option>Álvaro F. Chércoles</option><option>Álvaro Fernández</option><option>Álvaro Moreno</option><option>André</option><option>Ansel</option><option>Blanca</option><option value="Carlos (Martes)">Carlos (Martes)</option><option>Craig</option><option>David Horcajada</option><option>Edu</option><option>Fer</option><option>Fran</option><option>Francesco</option><option>Iyan</option><option value="José (Martes)">José (Martes)</option><option>Juan</option><option>Kike</option><option>Manu (México)</option><option>Manu (Telecinco)</option><option>Miguel</option><option>Noli</option><option>Rubén</option><option value="Víctor (Martes)">Víctor (Martes)</option><option>Xavi</option><option>Yeray</option>
+            <option>Álvaro Ascariz</option><option>Álvaro Barreiro</option><option>Álvaro de la Parte</option><option>Álvaro de Mera</option><option>Álvaro F. Chércoles</option><option>Álvaro Fernández</option><option>Álvaro Moreno</option><option>André</option><option>Ansel</option><option>Blanca</option><option>Carlos (Martes)</option><option>Craig</option><option>David Horcajada</option><option>Edu</option><option>Fer</option><option>Fran</option><option>Francesco</option><option>Iyan</option><option>Juan</option><option>Kike</option><option>Manu (México)</option><option>Manu (Telecinco)</option><option>Miguel</option><option>Noli</option><option>Rubén</option><option>Víctor (Martes)</option><option>Xavi</option><option>Yeray</option>
         </optgroup>
         <optgroup label="Jueves">
-            <option>Adrián</option><option>Alberto Carranza</option><option>Alberto Tesoldi</option><option>Ángel</option><option>Beñat</option><option value="Carlos (Jueves)">Carlos (Jueves)</option><option>Daniel Alfayate</option><option>Daniel Gimeno</option><option>Daniel Sánchez</option><option>David Rodríguez (Dave)</option><option>David Rodríguez (Ebri)</option><option>Diego</option><option>Ismael</option><option>Iván</option><option>Jaime</option><option value="José (Jueves)">José (Jueves)</option><option>Koke</option><option>Lionel</option><option>Moha</option><option>Rubén Alonso</option><option>Toño</option><option value="Víctor (Jueves)">Víctor (Jueves)</option>
+            <option>Adrián</option><option>Alberto Carranza</option><option>Alberto Tresoldi</option><option>Ángel</option><option>Beñat</option><option>Carlos (Jueves)</option><option>Daniel Alfayate</option><option>Daniel Gimeno</option><option>Daniel Sánchez</option><option>David Rodríguez (Dave)</option><option>David Rodríguez (Ebri)</option><option>Diego</option><option>Ismael</option><option>Iván</option><option>Jaime</option><option>José</option><option>Koke</option><option>Lionel</option><option>Moha</option><option>Rubén Alonso</option><option>Toño</option><option>Víctor (Jueves)</option>
         </optgroup>
     `;
 
@@ -998,7 +1044,6 @@ function renderizarSugerencias(socios) {
 }
 
 function seleccionarSocioBuscador(nombreSocio) {
-    vibrarHaptica();
     document.getElementById('buscadorSocio').value = nombreSocio;
     document.getElementById('listaSugerencias').style.display = 'none';
     document.getElementById('nombre').value = nombreSocio;
@@ -1006,7 +1051,6 @@ function seleccionarSocioBuscador(nombreSocio) {
 }
 
 function abrirModalPendientes(grupo) {
-    vibrarHaptica();
     const modal = document.getElementById('modalPendientes');
     const titulo = document.getElementById('modalTitulo');
     const lista = document.getElementById('modalListaNombres');
@@ -1030,7 +1074,6 @@ function abrirModalPendientes(grupo) {
 }
 
 function cerrarModal() {
-    vibrarHaptica();
     document.getElementById('modalPendientes').style.display = 'none';
 }
 
@@ -1051,12 +1094,6 @@ function obtenerIdUnicoDispositivo() {
 
 function sanitizarId(nombre) {
     return nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "_");
-}
-
-function vibrarHaptica() {
-    if (navigator.vibrate) {
-        navigator.vibrate(35);
-    }
 }
 
 function mostrarSpinner(texto = "Procesando...") {
@@ -1143,13 +1180,11 @@ function limpiarMensaje(){
 
 window.cambiarSocio = function(event) {
     event.preventDefault();
-    vibrarHaptica();
     localStorage.removeItem('gmadrid_socio_actual');
     location.reload();
 }
 
 function toggleVisibilidadPin() {
-    vibrarHaptica();
     const inputPin = document.getElementById("pinSocio");
     const btnToggle = document.querySelector(".btn-toggle-pin");
     if (inputPin.type === "password") {
@@ -1162,7 +1197,6 @@ function toggleVisibilidadPin() {
 }
 
 window.mostrarHorario = function(){
-    vibrarHaptica();
     const asistencia = document.querySelector('input[name="asiste"]:checked');
     if(!asistencia){
         return;
@@ -1173,6 +1207,7 @@ window.mostrarHorario = function(){
         document.querySelectorAll('input[name="hora"]').forEach(radio => {
             radio.checked = false;
         });
+        actualizarEstiloSeleccionRadio('hora');
     }
 }
 
@@ -1235,6 +1270,14 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let respuestaExistente = false;
+
+async function generarHashPin(pin) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pin);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 window.verificarEstadoInicial = async function() {
     const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
@@ -1335,7 +1378,6 @@ window.verificarDispositivoYCredencial = async function(nombreSocio) {
 
 window.validarOConfigurarPin = async function() {
     if (procesandoOperacion) return;
-    vibrarHaptica();
     const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
     const nombreSocioSelect = document.getElementById("nombre").value;
     const nombreSocio = socioGuardado || nombreSocioSelect;
@@ -1358,11 +1400,12 @@ window.validarOConfigurarPin = async function() {
         const refCredencial = doc(db, "credenciales_socios", idDoc);
         const snapCredencial = await getDoc(refCredencial);
         const deviceIdActual = obtenerIdUnicoDispositivo();
+        const pinHashIngresado = await generarHashPin(pinInput);
 
         if (snapCredencial.exists()) {
             const data = snapCredencial.data();
-            if (data.pin && data.pin === pinInput) {
-                await setDoc(refCredencial, { pin: pinInput, deviceId: deviceIdActual }, { merge: true });
+            if (data.pin && data.pin === pinHashIngresado) {
+                await setDoc(refCredencial, { pin: pinHashIngresado, deviceId: deviceIdActual }, { merge: true });
                 document.getElementById("bloquePin").style.display = "none";
                 document.getElementById("pinSocio").value = "";
                 
@@ -1373,13 +1416,13 @@ window.validarOConfigurarPin = async function() {
 
                 await prepararInterfazSocioIdentificado(nombreSocio);
                 procesandoOperacion = false;
-                mostrarMensaje("Dispositivo vinculado correctamente.", "exito");
+                mostrarMensaje("PIN introducido correctamente.", "exito");
             } else {
                 procesandoOperacion = false;
                 mostrarMensaje("PIN incorrecto. Inténtalo de nuevo.", "error");
             }
         } else {
-            await setDoc(refCredencial, { pin: pinInput, deviceId: deviceIdActual });
+            await setDoc(refCredencial, { pin: pinHashIngresado, deviceId: deviceIdActual });
             document.getElementById("bloquePin").style.display = "none";
             document.getElementById("pinSocio").value = "";
             
@@ -1390,7 +1433,7 @@ window.validarOConfigurarPin = async function() {
 
             await prepararInterfazSocioIdentificado(nombreSocio);
             procesandoOperacion = false;
-            mostrarMensaje("PIN configurado y dispositivo vinculado con éxito.", "exito");
+            mostrarMensaje("PIN creado correctamente y dispositivo vinculado.", "exito");
         }
     } catch (error) {
         procesandoOperacion = false;
@@ -1412,7 +1455,6 @@ async function prepararInterfazSocioIdentificado(nombreSocio) {
         if (grupoSeleccionado) break;
     }
 
-    // Seleccionar automáticamente el grupo del socio en el filtro desplegable
     if (grupoSeleccionado) {
         const filtroGrupoEl = document.getElementById("filtroGrupo");
         if (filtroGrupoEl) {
@@ -1426,6 +1468,8 @@ async function prepararInterfazSocioIdentificado(nombreSocio) {
 
     document.querySelectorAll('input[name="asiste"]').forEach(radio => radio.checked = false);
     document.querySelectorAll('input[name="hora"]').forEach(radio => radio.checked = false);
+    actualizarEstiloSeleccionRadio('asiste');
+    actualizarEstiloSeleccionRadio('hora');
     document.getElementById("bloqueHorario").style.display = "none";
     respuestaExistente = false;
     document.getElementById("btnEnviar").textContent = "Enviar respuesta";
@@ -1440,7 +1484,7 @@ async function prepararInterfazSocioIdentificado(nombreSocio) {
         fechaEvento = obtenerProximoDiaSemana(4);
     }
 
-    document.getElementById("textoAsistencia").textContent = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}?`;
+    document.getElementById("textoAsistencia").textContent = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}? *`;
 }
 
 function obtenerIdSocioAsistencia(nombreSeleccionado, grupo){
@@ -1473,12 +1517,14 @@ window.buscarRespuestaSocio = async function(nombreSeleccionado, grupo){
         document.querySelectorAll('input[name="asiste"]').forEach(radio => {
             radio.checked = radio.value === datos.asistencia;
         });
+        actualizarEstiloSeleccionRadio('asiste');
 
         window.mostrarHorario();
 
         document.querySelectorAll('input[name="hora"]').forEach(radio => {
             radio.checked = radio.value === datos.horaLlegada;
         });
+        actualizarEstiloSeleccionRadio('hora');
 
         mostrarMensaje("Respuesta recuperada correctamente", "info");
     }
@@ -1502,7 +1548,6 @@ window.guardarFirebase = async function(registro){
 
 window.enviarRespuesta = async function(){
     if (procesandoOperacion) return;
-    vibrarHaptica();
 
     const selectElement = document.getElementById("nombre");
     const socioGuardado = localStorage.getItem('gmadrid_socio_actual');
@@ -1587,7 +1632,6 @@ window.cargarAsistentes = async function(){
     let dudasJueves = 0;
 
     try{
-        // Si aún no se ha establecido por el socio logueado, intentamos autoseleccionar si el usuario ya está elegido en el selector oculto
         if (!filtroInicialEstablecido) {
             const socioActual = localStorage.getItem('gmadrid_socio_actual') || document.getElementById("nombre").value;
             if (socioActual) {
@@ -1645,7 +1689,6 @@ window.cargarAsistentes = async function(){
             return (a.horaLlegada || "").localeCompare(b.horaLlegada || "");
         });
 
-        // Guardamos en caché global para la paginación
         listaAsistentesCache = asistentes;
         renderizarTablaPaginada();
 
@@ -1757,7 +1800,7 @@ window.renderizarTablaPaginada = function() {
 
     if (listaAsistentesCache.length > registrosPorPagina) {
         contenedorPaginacion.style.display = "flex";
-        infoPaginacion.textContent = `Página ${paginaActual} de ${totalPaginas}`;
+        infoPaginacion.textContent = `Página ${paginaActual} de ` + totalPaginas;
         btnAnterior.disabled = paginaActual === 1;
         btnSiguiente.disabled = paginaActual === totalPaginas;
     } else {
@@ -1766,7 +1809,6 @@ window.renderizarTablaPaginada = function() {
 }
 
 window.cambiarPagina = function(direccion) {
-    vibrarHaptica();
     paginaActual += direccion;
     renderizarTablaPaginada();
 }
