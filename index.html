@@ -322,11 +322,10 @@ select {
     z-index: 2;
 }
 
+/* LISTA DE SUGERENCIAS FLOTANTE GLOBAL */
 #listaSugerencias {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    width: 100%;
+    display: none;
+    position: fixed;
     max-height: 200px;
     overflow-y: auto;
     background: rgba(255, 255, 255, 0.99);
@@ -335,8 +334,12 @@ select {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-    z-index: 9999;
+    z-index: 999999;
     box-sizing: border-box;
+}
+
+#listaSugerencias.mostrar {
+    display: block;
 }
 
 .sugerencia-item {
@@ -541,7 +544,7 @@ button:disabled {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 9999;
+    z-index: 99999;
     width: 90%;
     max-width: 600px;
     font-weight: 600;
@@ -631,9 +634,6 @@ button:disabled {
     }
 }
 
-/* ==========================================
-   TARJETAS: FONDO ARCOÍRIS SUTIL Y ANIMADO (GLASS), HOVER GRADIENTE FLUIDO, SELECCIONADA BORDE MORADO ESTÁTICO
-   ========================================== */
 @keyframes rotarHueArcoiris {
     0% { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
@@ -646,7 +646,6 @@ button:disabled {
     justify-content: center;
     gap: 10px;
     padding: 16px 14px;
-    /* Fondo con gradiente arcoíris sutil, translúcido y animado (Glass effect) */
     background: linear-gradient(135deg, rgba(228, 3, 3, 0.06), rgba(255, 140, 0, 0.06), rgba(255, 237, 0, 0.06), rgba(0, 128, 38, 0.06), rgba(0, 68, 212, 0.06), rgba(117, 0, 135, 0.06));
     background-size: 300% 300%;
     animation: bgArcoiris 15s ease infinite;
@@ -672,7 +671,6 @@ button:disabled {
     pointer-events: none;
 }
 
-/* HOVER: TRANSICIÓN GRADIENTE FLUIDO Y CONSTANTE EN EL BORDE */
 .opcion-card:hover:not(.deshabilitada), .opcion-card-filtro:hover:not(.deshabilitada) {
     background: linear-gradient(135deg, rgba(228, 3, 3, 0.12), rgba(255, 140, 0, 0.12), rgba(255, 237, 0, 0.12), rgba(0, 128, 38, 0.12), rgba(0, 68, 212, 0.12), rgba(117, 0, 135, 0.12));
     background-size: 300% 300%;
@@ -685,7 +683,6 @@ button:disabled {
     box-shadow: 0 4px 15px rgba(117, 0, 135, 0.1);
 }
 
-/* ESTADO SELECCIONADO: BORDE ESTÁTICO Y ELEGANTE EN TONO MORADO */
 .opcion-card.seleccionada, .opcion-card-filtro.seleccionada {
     background: linear-gradient(135deg, rgba(117, 0, 135, 0.08), rgba(216, 180, 254, 0.15)) !important;
     background-size: 100% 100% !important;
@@ -996,6 +993,9 @@ details[open] summary::before{
 
 <div class="esquina-opuesta-bg"></div>
 
+<!-- LISTA DE SUGERENCIAS FLOTANTE GLOBAL -->
+<div id="listaSugerencias" class="sugerencias-global"></div>
+
 <div id="mensaje">
     <div class="mensaje-contenido">
         <span id="textoMensaje"></span>
@@ -1044,7 +1044,6 @@ details[open] summary::before{
                 <div class="buscador-container">
                     <span class="icono-busqueda">🔍</span>
                     <input type="text" id="buscadorSocio" placeholder="Empieza a escribir tu nombre..." autocomplete="off" oninput="filtrarSocios()" onfocus="mostrarSugerencias()">
-                    <div id="listaSugerencias" style="display:none;"></div>
                 </div>
             </div>
 
@@ -1053,7 +1052,7 @@ details[open] summary::before{
             <div id="bloquePin" class="bloque" style="display: none;">
                 <label for="pinSocio"><b id="etiquetaPinLabel">Introduce tu PIN de 4 dígitos:</b></label>
                 <div class="input-pin-wrapper">
-                    <input type="password" id="pinSocio" maxlength="4" placeholder="••••" inputmode="numeric">
+                    <input type="password" id="pinSocio" maxlength="4" placeholder="••••" inputmode="numeric" onkeydown="if(event.key === 'Enter') validarOConfigurarPin()">
                     <button type="button" class="btn-toggle-pin" onclick="toggleVisibilidadPin()">Mostrar</button>
                 </div>
                 <div id="ayudaPinCreacion" class="ayuda-pin" style="display: none;">Crear este código solo se te pedirá esta única vez. Anótalo y recuérdalo por si necesitas usarlo en otros dispositivos o aplicaciones.</div>
@@ -1126,7 +1125,7 @@ details[open] summary::before{
             
             <div class="filtros-mobile-grid">
                 <div>
-                    <label style="margin-top:0; margin-bottom: 19px;">Grupo:</label>
+                    <label style="margin-top:0; margin-bottom: 13px;">Grupo:</label>
                     <select id="filtroGrupo" onchange="paginaActual = 1; cargarAsistentes(); actualizarTextoSummary();">
                         <option value="Todos">Todos</option>
                         <option value="Martes">Martes</option>
@@ -1215,12 +1214,17 @@ window.addEventListener('DOMContentLoaded', () => {
     cargarAsistentes();
     actualizarTextoSummary();
 
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.buscador-container')) {
+    window.addEventListener('click', (e) => {
+        if (!e.target.closest('#buscadorSocio') && !e.target.closest('#listaSugerencias')) {
             const lista = document.getElementById('listaSugerencias');
-            if(lista) lista.style.display = 'none';
+            if(lista) lista.classList.remove('mostrar');
         }
     });
+
+    window.addEventListener('scroll', () => {
+        const lista = document.getElementById('listaSugerencias');
+        if(lista) lista.classList.remove('mostrar');
+    }, { passive: true });
 
     const container = document.getElementById("floating-games-container");
     const gameEmotes = ["🎲", "♟️", "👑", "♞", "🃏", "🎯", "🧩", "🦄", "🌈"];
@@ -1339,10 +1343,10 @@ function inicializarListaSocios() {
     select.innerHTML = `
         <option value="">Selecciona tu nombre</option>
         <optgroup label="Martes">
-            <option>Álvaro Ascariz</option><option>Álvaro Barreiro</option><option>Álvaro de la Parte</option><option>Álvaro de Mera</option><option>Álvaro F. Chércoles</option><option>Álvaro Fernández</option><option>Álvaro Moreno</option><option>André</option><option>Ansel</option><option>Blanca</option><option>Carlos (Martes)</option><option>Craig</option><option>David Horcajada</option><option>Edu</option><option>Fer</option><option>Fran</option><option>Francesco</option><option>Iyan</option><option>Juan</option><option>Kike</option><option>Manu (México)</option><option>Manu (Telecinco)</option><option>Miguel</option><option>Noli</option><option>Rubén</option><option>Víctor (Martes)</option><option>Xavi</option><option>Yeray</option>
+            <option>Álvaro Ascariz</option><option>Álvaro Barreiro</option><option>Álvaro de la Parte</option><option>Álvaro de Mera</option><option>Álvaro F. Chércoles</option><option>Álvaro Fernández</option><option>Álvaro Moreno</option><option>André</option><option>Ansel</option><option>Blanca</option><option>Carlos (Martes)</option><option>Craig</option><option>David Horcajada</option><option>Edu</option><option>Fer</option><option>Fran</option><option>Francesco</option><option>Iyan</option><option>José (Martes)</option><option>Juan</option><option>Kike</option><option>Manu (México)</option><option>Manu (Telecinco)</option><option>Miguel</option><option>Noli</option><option>Rubén</option><option>Víctor (Martes)</option><option>Xavi</option><option>Yeray</option>
         </optgroup>
         <optgroup label="Jueves">
-            <option>Adrián</option><option>Alberto Carranza</option><option>Alberto Tresoldi</option><option>Ángel</option><option>Beñat</option><option>Carlos (Jueves)</option><option>Daniel Alfayate</option><option>Daniel Gimeno</option><option>Daniel Sánchez</option><option>David Rodríguez (Dave)</option><option>David Rodríguez (Ebri)</option><option>Diego</option><option>Ismael</option><option>Iván</option><option>Jaime</option><option>José (Jueves)</option><option>Koke</option><option>Lionel</option><option>Moha</option><option>Rubén Alonso</option><option>Toño</option><option>Víctor (Jueves)</option>
+            <option>Adrián</option><option>Alberto Carranza</option><option>Alberto Tesoldi</option><option>Ángel</option><option>Beñat</option><option>Carlos (Jueves)</option><option>Daniel Alfayate</option><option>Daniel Gimeno</option><option>Daniel Sánchez</option><option>David Rodríguez (Dave)</option><option>David Rodríguez (Ebri)</option><option>Diego</option><option>Ismael</option><option>Iván</option><option>Jaime</option><option>José (Jueves)</option><option>Koke</option><option>Lionel</option><option>Moha</option><option>Rubén Alonso</option><option>Toño</option><option>Víctor (Jueves)</option>
         </optgroup>
     `;
 
@@ -1369,10 +1373,11 @@ function filtrarSocios() {
 
 function renderizarSugerencias(socios) {
     const contenedor = document.getElementById('listaSugerencias');
+    const inputBuscador = document.getElementById('buscadorSocio');
     contenedor.innerHTML = '';
     
     if (socios.length === 0) {
-        contenedor.style.display = 'none';
+        contenedor.classList.remove('mostrar');
         return;
     }
 
@@ -1383,12 +1388,26 @@ function renderizarSugerencias(socios) {
         div.onclick = () => seleccionarSocioBuscador(s.nombre);
         contenedor.appendChild(div);
     });
-    contenedor.style.display = 'block';
+
+    const rect = inputBuscador.getBoundingClientRect();
+    contenedor.classList.add('mostrar');
+    
+    let left = rect.left;
+    let top = rect.bottom + 4;
+    let width = rect.width;
+
+    if (top + 200 > window.innerHeight - 10) {
+        top = rect.top - Math.min(200, contenedor.scrollHeight) - 4;
+    }
+
+    contenedor.style.left = left + 'px';
+    contenedor.style.top = top + 'px';
+    contenedor.style.width = width + 'px';
 }
 
 function seleccionarSocioBuscador(nombreSocio) {
     document.getElementById('buscadorSocio').value = nombreSocio;
-    document.getElementById('listaSugerencias').style.display = 'none';
+    document.getElementById('listaSugerencias').classList.remove('mostrar');
     document.getElementById('nombre').value = nombreSocio;
     gestionarSocio();
 }
