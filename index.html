@@ -522,10 +522,6 @@ button{
     transition: transform 0.15s ease, filter 0.2s ease;
 }
 
-button:hover:not(:disabled){
-    filter: brightness(1.12);
-    transform: translateY(-1px);
-}
 
 button:active:not(:disabled) {
     transform: scale(0.97);
@@ -1023,8 +1019,8 @@ details[open] summary::before{
 <div class="wrapper-principal">
     <header>
         <div class="header-principal">
-            <div class="hub-avatar">🎲</div>
-            <h1>Confirmación de Asistencia</h1>
+            <div class="hub-avatar">📅</div>
+            <h1>Control de asistencia</h1>
             <h2>GMadrid Juegos de Mesa 🏳️‍🌈</h2>
         </div>
     </header>
@@ -1336,6 +1332,20 @@ function esCoordinadorActual(nombreSocio) {
     return COORDINADORES_AUTORIZADOS.some(coord => 
         coord.localeCompare(nombreSocio, 'es', { sensitivity: 'accent' }) === 0
     );
+}
+
+function obtenerGrupoNaturalSocio(nombreSocio) {
+    const sociosMartesOficiales = [
+        "Álvaro Ascariz", "Álvaro Barreiro", "Álvaro de la Parte", "Álvaro de Mera", "Álvaro F. Chércoles", 
+        "Álvaro Fernández", "Álvaro Moreno", "André", "Ansel", "Blanca", "Carlos (Martes)", "Craig", 
+        "David Horcajada", "Edu", "Fer", "Fran", "Francesco", "Iyan", "José (Martes)", "Juan", 
+        "Kike", "Manu (México)", "Manu (Telecinco)", "Miguel", "Noli", "Rubén", "Víctor (Martes)", "Xavi", "Yeray"
+    ];
+    const limpio = (nombreSocio || "").trim();
+    if (sociosMartesOficiales.some(s => s.localeCompare(limpio, 'es', { sensitivity: 'accent' }) === 0)) {
+        return "Martes";
+    }
+    return "Jueves";
 }
 
 function inicializarListaSocios() {
@@ -2018,7 +2028,33 @@ window.cargarAsistentes = async function(){
     let dudasMartes = 0;
     let dudasJueves = 0;
 
+    let ganadoresErasmusMartes = new Set();
+    let ganadoresErasmusJueves = new Set();
+
     try{
+        // Cargar resultados de sorteo de Erasmus para identificar quiénes son Erasmus válidos
+        try {
+            const snapSorteoErasmus = await getDocs(collection(db, "sorteo_erasmus"));
+            snapSorteoErasmus.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.dia && data.ordenCompleto && Array.isArray(data.ordenCompleto)) {
+                    const plazas = data.plazasDisponibles || 0;
+                    data.ordenCompleto.forEach((persona, index) => {
+                        if (index < plazas) {
+                            const nombreLimpio = (persona.nombre || "").replace(/\s*\((Martes|Jueves)\)/gi, "").trim();
+                            if (data.dia === "Martes") {
+                                ganadoresErasmusMartes.add(nombreLimpio);
+                            } else if (data.dia === "Jueves") {
+                                ganadoresErasmusJueves.add(nombreLimpio);
+                            }
+                        }
+                    });
+                }
+            });
+        } catch (e) {
+            console.warn("No se pudieron cargar los sorteos Erasmus para la tabla de asistencia:", e);
+        }
+
         if (!filtroInicialEstablecido) {
             const socioActual = localStorage.getItem('gmadrid_socio_actual') || document.getElementById("nombre").value;
             if (socioActual) {
@@ -2077,7 +2113,16 @@ window.cargarAsistentes = async function(){
             return (a.horaLlegada || "").localeCompare(b.horaLlegada || "");
         });
 
-        listaAsistentesCache = asistentes;
+        listaAsistentesCache = asistentes.map(item => {
+            const nombreLimpio = (item.nombre || "").replace(/\s*\((Martes|Jueves)\)/gi, "").trim();
+            const grupoNatural = obtenerGrupoNaturalSocio(nombreLimpio);
+            const esErasmus = (item.grupo !== grupoNatural) && (
+                (item.grupo === "Martes" && ganadoresErasmusMartes.has(nombreLimpio)) ||
+                (item.grupo === "Jueves" && ganadoresErasmusJueves.has(nombreLimpio))
+            );
+            return { ...item, esErasmus };
+        });
+
         renderizarTablaPaginada();
 
         const socioActual = localStorage.getItem('gmadrid_socio_actual') || document.getElementById("nombre").value;
@@ -2175,10 +2220,15 @@ window.renderizarTablaPaginada = function() {
         }
         
         const nombreLimpio = (persona.nombre || "").replace(/\s*\((Martes|Jueves)\)/gi, "").trim();
+        
+        // Etiqueta Erasmus menos destacada, más pequeña y en gris claro
+        const etiquetaErasmusHTML = persona.esErasmus 
+            ? ` <span style="font-size: 11.5px; color: #94a3b8; font-weight: normal;">(Erasmus)</span>` 
+            : "";
 
         tabla.innerHTML += `
             <tr>
-                <td><b>${nombreLimpio}</b></td>
+                <td><b>${nombreLimpio}</b>${etiquetaErasmusHTML}</td>
                 <td>${persona.grupo || "-"}</td>
                 <td>${estado}</td>
                 <td>${persona.horaLlegada || "-"}</td>
