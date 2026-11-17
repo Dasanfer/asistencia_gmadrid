@@ -1066,7 +1066,7 @@ details[open] summary::before{
             </div>
 
             <div id="bloqueSelector">
-                <label for="buscadorSocio">Busca o selecciona tu nombre *</label>
+                <label for="buscadorSocio">Busca o selecciona tu nombre <span style="color: #e40303;">*</span></label>
                 <div class="buscador-container">
                     <span class="icono-busqueda">🔍</span>
                     <input type="text" id="buscadorSocio" placeholder="Empieza a escribir tu nombre..." autocomplete="off" oninput="filtrarSocios()" onfocus="mostrarSugerencias()">
@@ -1076,7 +1076,7 @@ details[open] summary::before{
             <select id="nombre" style="display:none;" onchange="gestionarSocio()"></select>
 
             <div id="bloquePin" class="bloque" style="display: none;">
-                <label for="pinSocio"><b id="etiquetaPinLabel">Introduce tu PIN de 4 dígitos *</b></label>
+                <label for="pinSocio"><b id="etiquetaPinLabel">Introduce tu PIN de 4 dígitos <span style="color: #e40303;">*</span></b></label>
                 <div class="input-pin-wrapper">
                     <input type="password" id="pinSocio" maxlength="4" placeholder="••••" inputmode="numeric" onkeydown="if(event.key === 'Enter') validarOConfigurarPin()">
                     <button type="button" class="btn-toggle-pin" onclick="toggleVisibilidadPin()">Mostrar</button>
@@ -1111,7 +1111,7 @@ details[open] summary::before{
 
             <div id="bloqueHorario" class="bloque" style="display:none;">
 
-            <label>Hora aproximada de llegada *</label>
+            <label>Hora aproximada de llegada <span style="color: #e40303;">*</span></label>
 
             <div class="grid-horario">
                 <label class="opcion-card" onclick="actualizarEstiloSeleccionRadio('hora')">
@@ -1585,7 +1585,7 @@ function limpiarMensaje(){
     ocultarMensaje();
 }
 
-function actualizarAlertaConfirmacionFija(asistencia, horaLlegada) {
+function actualizarAlertaConfirmacionFija(asistencia, horaLlegada, grupoSocio) {
     const alerta = document.getElementById("alertaConfirmacionFija");
     if (!alerta) return;
 
@@ -1610,7 +1610,10 @@ function actualizarAlertaConfirmacionFija(asistencia, horaLlegada) {
         textoEstado = "tu <b>duda</b> 🟠";
     }
 
-    alerta.innerHTML = `📅 Ya has confirmado ${textoEstado}${detalleHora} para tu próximo día. Recuerda que puedes modificar los datos enviados en cualquier momento.`;
+    const numeroDiaTarget = grupoSocio === "Martes" ? 2 : 4;
+    const fechaExactaEvento = obtenerProximoDiaSemana(numeroDiaTarget);
+
+    alerta.innerHTML = `📅 Ya has confirmado ${textoEstado}${detalleHora} para el <b>${fechaExactaEvento}</b>. Recuerda que puedes modificar los datos enviados en cualquier momento.`;
     alerta.style.display = "block";
 }
 
@@ -1799,7 +1802,7 @@ window.verificarDispositivoYCredencial = async function(nombreSocio) {
                 await prepararInterfazSocioIdentificado(nombreSocio);
             } else {
                 document.getElementById("bloquePin").style.display = "block";
-                document.getElementById("etiquetaPinLabel").textContent = "Introduce tu PIN de 4 dígitos *";
+                document.getElementById("etiquetaPinLabel").innerHTML = 'Introduce tu PIN de 4 dígitos <span style="color: #e40303;">*</span>';
                 document.getElementById("pinSocio").value = "";
                 document.getElementById("ayudaPinCreacion").style.display = "none";
                 document.getElementById("bloqueAsistencia").style.display = "none";
@@ -1808,7 +1811,7 @@ window.verificarDispositivoYCredencial = async function(nombreSocio) {
             }
         } else {
             document.getElementById("bloquePin").style.display = "block";
-            document.getElementById("etiquetaPinLabel").textContent = "Crea tu PIN nuevo de 4 dígitos *";
+            document.getElementById("etiquetaPinLabel").innerHTML = 'Crea tu PIN nuevo de 4 dígitos <span style="color: #e40303;">*</span>';
             document.getElementById("pinSocio").value = "";
             document.getElementById("ayudaPinCreacion").style.display = "block";
             document.getElementById("bloqueAsistencia").style.display = "none";
@@ -1819,7 +1822,7 @@ window.verificarDispositivoYCredencial = async function(nombreSocio) {
         console.error("Error verificando credenciales:", error);
         ocultarSpinner();
         document.getElementById("bloquePin").style.display = "block";
-        document.getElementById("etiquetaPinLabel").textContent = "Introduce tu PIN de 4 dígitos *";
+        document.getElementById("etiquetaPinLabel").innerHTML = 'Introduce tu PIN de 4 dígitos <span style="color: #e40303;">*</span>';
         document.getElementById("pinSocio").value = "";
         document.getElementById("ayudaPinCreacion").style.display = "none";
     }
@@ -1947,7 +1950,7 @@ async function prepararInterfazSocioIdentificado(nombreSocio) {
         fechaEvento = obtenerProximoDiaSemana(4);
     }
 
-    document.getElementById("textoAsistencia").textContent = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}? *`;
+    document.getElementById("textoAsistencia").innerHTML = `¿Vas a asistir el día ${fechaEvento.charAt(0).toUpperCase() + fechaEvento.slice(1)}? <span style="color: #e40303;">*</span>`;
 }
 
 function obtenerIdSocioAsistencia(nombreSeleccionado, grupo){
@@ -1991,7 +1994,7 @@ window.buscarRespuestaSocio = async function(nombreSeleccionado, grupo){
         });
         actualizarEstiloSeleccionRadio('hora');
 
-        actualizarAlertaConfirmacionFija(datos.asistencia, datos.horaLlegada);
+        actualizarAlertaConfirmacionFija(datos.asistencia, datos.horaLlegada, datos.grupo);
         mostrarMensaje("Respuesta recuperada correctamente", "info");
     }
     catch(error){
@@ -2068,7 +2071,7 @@ window.enviarRespuesta = async function(){
     if(guardado){
         respuestaExistente = true;
         document.getElementById("btnEnviar").textContent = "Modificar respuesta";
-        actualizarAlertaConfirmacionFija(registro.asistencia, registro.horaLlegada);
+        actualizarAlertaConfirmacionFija(registro.asistencia, registro.horaLlegada, registro.grupo);
         cargarAsistentes();
         mostrarMensaje(esModificacion ? "Respuesta modificada correctamente" : "Respuesta registrada correctamente", "exito");
     }
