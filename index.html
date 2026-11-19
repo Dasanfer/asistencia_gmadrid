@@ -2208,8 +2208,15 @@ window.cargarAsistentes = async function(){
             const maxMartes = 28;
             const maxJueves = 22;
 
-            const plazasLibresMartes = maxMartes - asistentesMartes - dudasMartes;
-            const plazasLibresJueves = maxJueves - asistentesJueves - dudasJueves;
+            const sinVotarMartes = sociosPendientesMartes.length;
+            const sinVotarJueves = sociosPendientesJueves.length;
+
+            // Quienes aún no han votado computan como "en duda" para reservar plaza en el cálculo de Expansión/Erasmus
+            const ocupadasReservadasMartes = asistentesMartes + dudasMartes + sinVotarMartes;
+            const ocupadasReservadasJueves = asistentesJueves + dudasJueves + sinVotarJueves;
+
+            const plazasLibresMartes = maxMartes - ocupadasReservadasMartes;
+            const plazasLibresJueves = maxJueves - ocupadasReservadasJueves;
 
             const expansionMartes = Math.min(3, plazasLibresMartes);
             const erasmusMartes = Math.max(0, plazasLibresMartes - 3);
@@ -2217,8 +2224,8 @@ window.cargarAsistentes = async function(){
             const expansionJueves = Math.min(3, plazasLibresJueves);
             const erasmusJueves = Math.max(0, plazasLibresJueves - 3);
 
-            const porcMartes = Math.min(100, Math.round(((asistentesMartes + dudasMartes) / maxMartes) * 100));
-            const porcJueves = Math.min(100, Math.round(((asistentesJueves + dudasJueves) / maxJueves) * 100));
+            const porcMartes = Math.min(100, Math.round((ocupadasReservadasMartes / maxMartes) * 100));
+            const porcJueves = Math.min(100, Math.round((ocupadasReservadasJueves / maxJueves) * 100));
             
             const fechaMartes = obtenerFechaEventoGrupo("Martes");
             const fechaJueves = obtenerFechaEventoGrupo("Jueves");
@@ -2229,7 +2236,7 @@ window.cargarAsistentes = async function(){
                 resumenHTML += `
                     <div style="margin-bottom: 14px;">
                         <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
-                            <span><b>Martes (${fechaMartes}):</b> ${asistentesMartes} asistentes, ${plazasLibresMartes} plazas libres (${expansionMartes} Expansión, ${erasmusMartes} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Martes')">(${sociosPendientesMartes.length} sin votar)</button></span>
+                            <span><b>Martes (${fechaMartes}):</b> ${asistentesMartes} asistentes, ${plazasLibresMartes} plazas libres (${expansionMartes} Expansión, ${erasmusMartes} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Martes')">(${sinVotarMartes} sin votar)</button></span>
                             <span style="font-weight:700;">${porcMartes}%</span>
                         </div>
                         <div class="progress-container"><div class="progress-bar-arcoiris" style="width: ${porcMartes}%;"></div></div>
@@ -2241,7 +2248,7 @@ window.cargarAsistentes = async function(){
                 resumenHTML += `
                     <div>
                         <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
-                            <span><b>Jueves (${fechaJueves}):</b> ${asistentesJueves} asistentes, ${plazasLibresJueves} plazas libres (${expansionJueves} Expansión, ${erasmusJueves} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Jueves')">(${sociosPendientesJueves.length} sin votar)</button></span>
+                            <span><b>Jueves (${fechaJueves}):</b> ${asistentesJueves} asistentes, ${plazasLibresJueves} plazas libres (${expansionJueves} Expansión, ${erasmusJueves} Erasmus). <button type="button" class="link-pendientes" onclick="abrirModalPendientes('Jueves')">(${sinVotarJueves} sin votar)</button></span>
                             <span style="font-weight:700;">${porcJueves}%</span>
                         </div>
                         <div class="progress-container"><div class="progress-bar-arcoiris" style="width: ${porcJueves}%;"></div></div>
